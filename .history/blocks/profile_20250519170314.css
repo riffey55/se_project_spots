@@ -1,0 +1,9 @@
+.profile {
+  display: flex;
+}
+.profile__avatar {
+  margin-right: 20px;
+}
+.profile__add-btn {
+  margin-left: auto;
+}
