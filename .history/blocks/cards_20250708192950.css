@@ -14,7 +14,11 @@
   gap: 40px 20px;
 }
 
-/* 📱 Mobile Styles */
+.cards__list {
+  grid-template-columns: repeat(auto-fit, 288px);
+  gap: 20px;
+}
+
 @media screen and (max-width: 627px) {
   .cards__list {
     grid-template-columns: repeat(auto-fit, 288px);
@@ -22,6 +26,5 @@
   }
 
   .cards {
-    padding-bottom: 20px;
+    padding-bottom: 20px; /* 👈 Mobile padding fix */
   }
-}

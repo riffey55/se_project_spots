@@ -15,13 +15,11 @@
 }
 
 /* 📱 Mobile Styles */
-@media screen and (max-width: 627px) {
-  .cards__list {
-    grid-template-columns: repeat(auto-fit, 288px);
-    gap: 20px;
-  }
+@media screen and (max-width: 627px) .cards__list {
+  grid-template-columns: repeat(auto-fit, 288px);
+  gap: 20px;
+}
 
-  .cards {
-    padding-bottom: 20px;
-  }
+.cards {
+  padding-bottom: 20px;
 }

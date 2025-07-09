@@ -23,23 +23,18 @@
   font-weight: 500;
   font-size: 32px;
   line-height: 100%;
+  letter-spacing: 0%;
   color: #212121;
-  max-width: 420px;
+  max-width: 478px;
   display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
-.profile__description {
-  font-family: "Poppins", sans-serif;
-  font-size: 16px;
-  font-weight: 400; /* Assuming it's regular, not bold */
-  line-height: 24px;
-  color: #212121;
-  max-width: 420px;
 
-  margin: 0 0 12px;
+.profile__description {
+  margin: 0 0 12px; /* <- this adds spacing under the job title */
   display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -49,22 +44,24 @@
 
 .profile__edit-btn {
   display: flex;
+  align-items: center;
   gap: 8px;
-  border: none;
+  padding: 6px 16px;
+  border: 1px solid #dcd2c8;
+  border-radius: 32px;
   background-color: transparent;
   font-family: "Poppins", sans-serif;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 18px;
   color: #212121;
   line-height: 1;
-  margin-top: auto;
+  margin-top: 60px; /* Increase this value if it still feels too high */
   cursor: pointer;
   transition: opacity 0.3s ease;
-  opacity: 0.7;
 }
 
 .profile__edit-btn:hover {
-  opacity: 1;
+  opacity: 0.7;
 }
 
 .profile__add-btn {
@@ -81,13 +78,15 @@
   align-items: center;
   gap: 9px;
   cursor: pointer;
+  opacity: 0.7;
   margin-left: auto;
   margin-top: auto;
   transition: background-color 0.3s ease, opacity 0.3s ease;
 }
 
 .profile__add-btn:hover {
-  opacity: 0.8;
+  background-color: #424242;
+  opacity: 1;
 }
 
 @media screen and (max-width: 627px) {
@@ -99,25 +98,10 @@
     padding-top: 20px;
   }
 
-  .profile__column {
-    align-items: center;
-  }
-
   .profile__avatar {
     margin: 0 0 12px;
     height: 80px;
     width: 80px;
-  }
-
-  .profile__name {
-    text-align: center;
-    font-size: 20px;
-    margin: 0 0 6px;
-  }
-
-  .profile__description {
-    text-align: center;
-    margin: 0 0 32px;
   }
 
   .profile__add-btn {

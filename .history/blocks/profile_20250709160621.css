@@ -99,25 +99,10 @@
     padding-top: 20px;
   }
 
-  .profile__column {
-    align-items: center;
-  }
-
   .profile__avatar {
     margin: 0 0 12px;
     height: 80px;
     width: 80px;
-  }
-
-  .profile__name {
-    text-align: center;
-    font-size: 20px;
-    margin: 0 0 6px;
-  }
-
-  .profile__description {
-    text-align: center;
-    margin: 0 0 32px;
   }
 
   .profile__add-btn {
