@@ -44,4 +44,4 @@ This project is made so all the elements are displayed correctly on popular scre
 
 This webpage is deployed to Github Pages
 
-[Deployment Link](https://github.com/riffey55/se_project_spots)
+[Deployment Link](https://riffey55.github.io/se_project_spots/)
