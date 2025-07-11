@@ -35,13 +35,15 @@ This project is made so all the elements are displayed correctly on popular scre
 
 **Tech Stack**
 
--HTML
--CSS
--BEM
--Responsive Design
+- HTML
+- CSS
+- BEM
+- Responsive Design
 
 **Deployment**
 
-This webpage is deployed to Github Pages
+This webpage is deployed to GitHub Pages
 
 [Deployment Link](https://riffey55.github.io/se_project_spots/)
+
+[Watch the full video here](https://youtu.be/zi7RAv1cFOw)
