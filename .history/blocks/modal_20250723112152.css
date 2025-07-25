@@ -1,8 +1,0 @@
-.modal {
-  visibility: hidden;
-  background-color: #0000080;
-}
-
-.modal_is_opened {
-  visibility: visible;
-}
