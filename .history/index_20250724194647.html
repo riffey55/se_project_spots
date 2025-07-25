@@ -137,44 +137,39 @@
           </form>
         </div>
       </div>
-      <!-- Edit Profile Modal -->
-      <div class="modal modal_is-opened" id="edit-modal">
+      <!-- New Post Modal -->
+      <div class="modal" id="new-post-modal">
         <div class="modal__container">
-          <button class="modal__close-button" type="button">✖</button>
-          <form class="modal__form">
-            <h2 class="modal__title">Edit profile</h2>
+          <button
+            type="button"
+            class="modal__close-button"
+            aria-label="Close modal"
+          >
+            ✕
+          </button>
+          <h3 class="modal__title">New post</h3>
+          <form class="modal__form" name="new-post-form">
             <label class="modal__label">
+              Image link
               <input
-                type="text"
+                type="url"
+                name="image"
                 class="modal__input"
-                placeholder="Type your name"
+                placeholder="Paste a link to the picture"
+                required
               />
             </label>
             <label class="modal__label">
+              Caption
               <input
                 type="text"
+                name="caption"
                 class="modal__input"
-                placeholder="Describe yourself"
+                placeholder="Type your caption"
+                required
               />
             </label>
             <button type="submit" class="modal__save-button">Save</button>
-          </form>
-        </div>
-      </div>
-
-      <!-- New Post Modal -->
-      <div class="modal" id="post-modal">
-        <div class="modal__container modal__container--new-post">
-          <button class="modal__close-button" type="button">✖</button>
-          <form class="modal__form">
-            <h2 class="modal__title">New post</h2>
-            <label class="modal__label">
-              <input type="text" class="modal__input" placeholder="Title" />
-            </label>
-            <label class="modal__label">
-              <input type="url" class="modal__input" placeholder="Image URL" />
-            </label>
-            <button type="submit" class="modal__save-button">Create</button>
           </form>
         </div>
       </div>
