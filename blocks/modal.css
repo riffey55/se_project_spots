@@ -1,5 +1,6 @@
 .modal {
-  display: none;
+  visibility: hidden;
+  opacity: 0;
   background-color: #00000080;
   position: fixed;
   top: 0;
@@ -8,19 +9,29 @@
   left: 0;
   justify-content: center;
   align-items: center;
+  pointer-events: none;
+  transition: visibility 0.3s, opacity 0.3s;
 }
 
 .modal.modal_is_opened {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: all;
   display: flex;
 }
 
 .modal__close-button {
   position: absolute;
-  top: 32px;
-  right: 50px;
+  top: 16px; /* Adjusted for better spacing */
+  right: 16px; /* Adjusted to hug the modal edge */
   width: 40px;
   height: 40px;
-  /*TODO - add close icon and make sure it looks right */
+  background: none;
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+  color: #212121;
+  cursor: pointer;
 }
 
 .modal__title {
@@ -85,10 +96,10 @@
   color: #2121214d;
 }
 
-.modal__save-button {
+.modal__submit-button {
   width: 156px;
-  height: 40px;
-  padding: 18px 32px;
+  height: 48px; /* slightly taller */
+  padding: 14px 32px; /* less vertical padding */
   background-color: #212121;
   color: #fcf5e5;
   border: none;
@@ -96,13 +107,17 @@
   font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size: 16px;
-  line-height: 100%;
-  letter-spacing: 0;
+  line-height: 1;
   cursor: pointer;
   transition: background-color 0.3s ease;
   align-self: flex-start;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.modal__save-button:hover {
+.modal__submit-button:hover {
   background-color: #333333;
 }
+
+.modal__container_type_new-post
