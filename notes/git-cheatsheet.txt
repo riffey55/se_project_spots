@@ -1,0 +1,7 @@
+# Git Cheatsheet
+
+git status           # Check status
+git add .            # Add all changes
+git commit -m "Message"   # Commit changes
+git push             # Push to GitHub
+git pull             # Pull latest from GitHub

@@ -1,0 +1,5 @@
+// [FILENAME]
+// Author: [Your Name]
+// Last updated: [Date]
+// Purpose: [Describe what this file is for]
+// Notes: [Any reminders or special tips]

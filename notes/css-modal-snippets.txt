@@ -1,0 +1,9 @@
+//* Hide and show a modal *//
+
+.modal {
+  display: none;
+}
+
+.modal.modal_is_opened {
+  display: block;
+}
