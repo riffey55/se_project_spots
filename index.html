@@ -108,15 +108,25 @@
         </section>
       </main>
       <footer class="footer">
-        <p class="footer__text">2023 © Spots</p>
+        <p class="footer__text">2025 © Spots</p>
       </footer>
 
       <!-- Edit Profile Modal -->
-      <div class="modal" id="edit-profile-modal">
+      <!-- Edit Profile Modal -->
+      <div
+        class="modal"
+        id="edit-profile-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="edit-profile-title"
+      >
         <div class="modal__container">
-          <button type="button" class="modal__close-button">X</button>
-          <form class="modal__form">
-            <h2 class="modal__title">Edit profile</h2>
+          <button type="button" class="modal__close-button" aria-label="Close">
+            ✖
+          </button>
+          <form class="modal__form" novalidate>
+            <h2 class="modal__title" id="edit-profile-title">Edit profile</h2>
+
             <label for="profile-name-input" class="modal__label">
               Name
               <input
@@ -126,6 +136,7 @@
                 placeholder="Type your name"
               />
             </label>
+
             <label for="profile-description-input" class="modal__label">
               Description
               <input
@@ -135,23 +146,47 @@
                 placeholder="Describe yourself"
               />
             </label>
+
             <button type="submit" class="modal__submit-button">Save</button>
           </form>
         </div>
       </div>
 
       <!-- New Post Modal -->
-      <div class="modal" id="new-post-modal">
+      <div
+        class="modal"
+        id="new-post-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="new-post-title"
+      >
         <div class="modal__container modal__container_type_new-post">
-          <button class="modal__close-button" type="button">✖</button>
-          <form class="modal__form">
-            <h2 class="modal__title">New post</h2>
-            <label class="modal__label">
-              <input type="text" class="modal__input" placeholder="Title" />
+          <button type="button" class="modal__close-button" aria-label="Close">
+            ✖
+          </button>
+          <form class="modal__form" novalidate>
+            <h2 class="modal__title" id="new-post-title">New post</h2>
+
+            <label class="modal__label" for="new-post-title-input">
+              Title
+              <input
+                id="new-post-title-input"
+                type="text"
+                class="modal__input"
+                placeholder="Title"
+              />
             </label>
-            <label class="modal__label">
-              <input type="url" class="modal__input" placeholder="Image URL" />
+
+            <label class="modal__label" for="new-post-url-input">
+              Image URL
+              <input
+                id="new-post-url-input"
+                type="url"
+                class="modal__input"
+                placeholder="Image URL"
+              />
             </label>
+
             <button type="submit" class="modal__submit-button">Create</button>
           </form>
         </div>

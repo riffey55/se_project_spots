@@ -2,44 +2,110 @@
 // Handles modal open/close logic for Edit Profile and New Post
 // Author: Beren Riffey | Last updated: [August 6, 2025]
 
+// index.js
+// Handles modal open/close logic + form submissions
+
+// ===== Profile elements on the page =====
+const profileNameEl = document.querySelector(".profile__name");
+const profileDescriptionEl = document.querySelector(".profile__description");
+
+// ===== Edit Profile modal =====
 const editProfileButton = document.querySelector(".profile__edit-btn");
 const editProfileModal = document.getElementById("edit-profile-modal");
+const editProfileForm = editProfileModal.querySelector(".modal__form");
 const closeProfileModalButton = editProfileModal.querySelector(
   ".modal__close-button"
 );
 
+// Select the form + inputs FROM INSIDE the modal (per instructions)
+const profileFormElement = editProfileModal.querySelector(".modal__form");
+const editProfileNameInput = editProfileModal.querySelector(
+  "#profile-name-input"
+);
+const editProfileDescriptionInput = editProfileModal.querySelector(
+  "#profile-description-input"
+);
+
+// Open: pre-fill inputs, then open modal
 editProfileButton.addEventListener("click", function () {
+  editProfileNameInput.value = profileNameEl.textContent;
+  editProfileDescriptionInput.value = profileDescriptionEl.textContent;
   editProfileModal.classList.add("modal_is_opened");
 });
 
+// Close (X button)
 closeProfileModalButton.addEventListener("click", function () {
   editProfileModal.classList.remove("modal_is_opened");
 });
 
-const newPostButton = document.querySelector(".profile__add-btn");
-const newPostModal = document.getElementById("new-post-modal");
-
-const closeNewPostModalButton = newPostModal.querySelector(
-  ".modal__close-button"
-);
-
-newPostButton.addEventListener("click", function () {
-  newPostModal.classList.add("modal_is_opened");
-});
-
-closeNewPostModalButton.addEventListener("click", function () {
-  newPostModal.classList.remove("modal_is_opened");
-});
-
+// Close when clicking overlay
 editProfileModal.addEventListener("click", function (event) {
   if (event.target === editProfileModal) {
     editProfileModal.classList.remove("modal_is_opened");
   }
 });
 
-// New Post Modal: Close when clicking the overlay
+// Submit handler (must be 'submit', not 'click')
+function handleProfileFormSubmit(evt) {
+  evt.preventDefault();
+
+  // Read input values
+  const newName = editProfileNameInput.value.trim();
+  const newDesc = editProfileDescriptionInput.value.trim();
+
+  // Update page text
+  profileNameEl.textContent = newName || profileNameEl.textContent;
+  profileDescriptionEl.textContent =
+    newDesc || profileDescriptionEl.textContent;
+
+  // Close modal
+  editProfileModal.classList.remove("modal_is_opened");
+}
+
+profileFormElement.addEventListener("submit", handleProfileFormSubmit);
+
+// ===== New Post modal =====
+const newPostButton = document.querySelector(".profile__add-btn");
+const newPostModal = document.getElementById("new-post-modal");
+const closeNewPostModalButton = newPostModal.querySelector(
+  ".modal__close-button"
+);
+
+// Select the form + inputs FROM INSIDE the modal (per instructions)
+const addCardFormElement = newPostModal.querySelector(".modal__form");
+
+// There are two inputs inside: [0] Title (text), [1] Image URL (url)
+const [newPostTitleInput, newPostLinkInput] =
+  newPostModal.querySelectorAll(".modal__input");
+
+// Open
+newPostButton.addEventListener("click", function () {
+  // Optional: clear fields on open
+  newPostTitleInput.value = "";
+  newPostLinkInput.value = "";
+  newPostModal.classList.add("modal_is_opened");
+});
+
+// Close (X button)
+closeNewPostModalButton.addEventListener("click", function () {
+  newPostModal.classList.remove("modal_is_opened");
+});
+
+// Close when clicking overlay
 newPostModal.addEventListener("click", function (event) {
   if (event.target === newPostModal) {
     newPostModal.classList.remove("modal_is_opened");
   }
 });
+
+// Submit handler: log values then close
+function handleAddCardSubmit(evt) {
+  evt.preventDefault();
+
+  console.log("New Post Title:", newPostTitleInput.value);
+  console.log("New Post Image URL:", newPostLinkInput.value);
+
+  newPostModal.classList.remove("modal_is_opened");
+}
+
+addCardFormElement.addEventListener("submit", handleAddCardSubmit);
