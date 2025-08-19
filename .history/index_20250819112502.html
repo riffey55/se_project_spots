@@ -36,10 +36,9 @@
             </button>
           </div>
           <button type="button" class="profile__add-btn">
-            <img src="./images/plus.svg" alt="Plus icon" />New Post
+            <img src="./images/plus.svg" alt="Plus icon" class="" />New Post
           </button>
         </section>
-
         <section class="cards page__section">
           <ul class="cards__list">
             <li class="card">
@@ -57,7 +56,6 @@
                 ></button>
               </div>
             </li>
-
             <li class="card">
               <img
                 src="./images/2-photo-by-ceiline-from-pexels.jpg"
@@ -73,7 +71,6 @@
                 ></button>
               </div>
             </li>
-
             <li class="card">
               <img
                 src="./images/3-photo-by-tubanur-dogan-from-pexels.jpg"
@@ -89,7 +86,6 @@
                 ></button>
               </div>
             </li>
-
             <li class="card">
               <img
                 src="./images/4-photo-by-maurice-laschet-from-pexels.jpg"
@@ -105,12 +101,12 @@
                 ></button>
               </div>
             </li>
-
             <li class="card">
               <img
                 src="./images/5-photo-by-van-anh-nguyen-from-pexels.jpg"
                 alt="Tunnel with morning light"
                 class="card__image"
+                Ss
               />
               <div class="card__content">
                 <h2 class="card__title">Tunnel with morning light</h2>
@@ -121,15 +117,15 @@
                 ></button>
               </div>
             </li>
-
             <li class="card">
               <img
                 src="./images/6-photo-by-moritz-feldmann-from-pexels.jpg"
-                alt="Mountain house"
+                alt="Mountian house"
                 class="card__image"
               />
               <div class="card__content">
-                <h2 class="card__title">Mountain house</h2>
+                S
+                <h2 class="card__title">Mountian house</h2>
                 <button
                   type="button"
                   class="card__like-btn"
@@ -140,7 +136,6 @@
           </ul>
         </section>
       </main>
-
       <footer class="footer">
         <p class="footer__text">2025 © Spots</p>
       </footer>
@@ -155,9 +150,8 @@
       >
         <div class="modal__container">
           <button type="button" class="modal__close-button" aria-label="Close">
-            <img src="./images/Close Icon.png" alt="" />
+            ✖
           </button>
-
           <form class="modal__form" novalidate>
             <h2 class="modal__title" id="edit-profile-title">Edit profile</h2>
 
@@ -181,7 +175,13 @@
               />
             </label>
 
-            <button type="submit" class="modal__submit-button">Save</button>
+            <button
+              type="button"
+              class="modal__close-button"
+              aria-label="Close"
+            >
+              <img src="./images/Close Icon.png" alt="" />
+            </button>
           </form>
         </div>
       </div>
@@ -196,9 +196,8 @@
       >
         <div class="modal__container modal__container_type_new-post">
           <button type="button" class="modal__close-button" aria-label="Close">
-            <img src="./images/Close Icon.png" alt="" />
+            ✖
           </button>
-
           <form class="modal__form" novalidate>
             <h2 class="modal__title" id="new-post-title">New post</h2>
 
@@ -222,12 +221,17 @@
               />
             </label>
 
-            <button type="submit" class="modal__submit-button">Create</button>
+            <button
+              type="button"
+              class="modal__close-button"
+              aria-label="Close"
+            >
+              <img src="./images/Close Icon.png" alt="" />
+            </button>
           </form>
         </div>
       </div>
     </div>
-
     <script src="./scripts/index.js"></script>
   </body>
 </html>

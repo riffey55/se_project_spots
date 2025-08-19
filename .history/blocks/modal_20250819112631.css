@@ -71,15 +71,7 @@
   object-fit: contain;
 }
 
-/* ===/* ===== Close Button Hover/Focus ===== */
-.modal__close-button:hover img,
-.modal__close-button:focus img {
-  opacity: 0.6; /* fades the X icon slightly */
-  transition: opacity 0.2s ease;
-}
-
-/*== Title ===== */
-
+/* ===== Title ===== */
 .modal__title {
   margin: 0 0 32px;
 }

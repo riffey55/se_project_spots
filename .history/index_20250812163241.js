@@ -11,11 +11,11 @@ const newPostModal = document.getElementById("new-post-modal");
 
 // ===== DRY helpers =====
 function openModal(modalElement) {
-  modalElement.classList.add("modal_is-opened");
+  modalElement.classList.add("modal_is_opened");
 }
 
 function closeModal(modalElement) {
-  modalElement.classList.remove("modal_is-opened");
+  modalElement.classList.remove("modal_is_opened");
 }
 
 // ===== Edit Profile modal =====

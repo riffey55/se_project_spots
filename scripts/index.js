@@ -2,9 +2,6 @@
 // Handles modal open/close logic for Edit Profile and New Post
 // Author: Beren Riffey | Last updated: [August 6, 2025]
 
-// index.js
-// Handles modal open/close logic + form submissions
-
 // ===== Profile elements on the page =====
 const profileNameEl = document.querySelector(".profile__name");
 const profileDescriptionEl = document.querySelector(".profile__description");
@@ -30,18 +27,18 @@ const editProfileDescriptionInput = editProfileModal.querySelector(
 editProfileButton.addEventListener("click", function () {
   editProfileNameInput.value = profileNameEl.textContent;
   editProfileDescriptionInput.value = profileDescriptionEl.textContent;
-  editProfileModal.classList.add("modal_is_opened");
+  editProfileModal.classList.add("modal_is-opened");
 });
 
 // Close (X button)
 closeProfileModalButton.addEventListener("click", function () {
-  editProfileModal.classList.remove("modal_is_opened");
+  editProfileModal.classList.remove("modal_is-opened");
 });
 
 // Close when clicking overlay
 editProfileModal.addEventListener("click", function (event) {
   if (event.target === editProfileModal) {
-    editProfileModal.classList.remove("modal_is_opened");
+    editProfileModal.classList.remove("modal_is-opened");
   }
 });
 
@@ -59,7 +56,7 @@ function handleProfileFormSubmit(evt) {
     newDesc || profileDescriptionEl.textContent;
 
   // Close modal
-  editProfileModal.classList.remove("modal_is_opened");
+  editProfileModal.classList.remove("modal_is-opened");
 }
 
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);
@@ -83,18 +80,18 @@ newPostButton.addEventListener("click", function () {
   // Optional: clear fields on open
   newPostTitleInput.value = "";
   newPostLinkInput.value = "";
-  newPostModal.classList.add("modal_is_opened");
+  newPostModal.classList.add("modal_is-opened");
 });
 
 // Close (X button)
 closeNewPostModalButton.addEventListener("click", function () {
-  newPostModal.classList.remove("modal_is_opened");
+  newPostModal.classList.remove("modal_is-opened");
 });
 
 // Close when clicking overlay
 newPostModal.addEventListener("click", function (event) {
   if (event.target === newPostModal) {
-    newPostModal.classList.remove("modal_is_opened");
+    newPostModal.classList.remove("modal_is-opened");
   }
 });
 
@@ -105,7 +102,7 @@ function handleAddCardSubmit(evt) {
   console.log("New Post Title:", newPostTitleInput.value);
   console.log("New Post Image URL:", newPostLinkInput.value);
 
-  newPostModal.classList.remove("modal_is_opened");
+  newPostModal.classList.remove("modal_is-opened");
 }
 
 addCardFormElement.addEventListener("submit", handleAddCardSubmit);
