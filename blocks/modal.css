@@ -5,6 +5,7 @@
   display: grid; /* centers container nicely */
   place-items: center;
   background-color: rgba(0, 0, 0, 0.5);
+  padding: 12px;
 
   /* Transition-friendly properties */
   visibility: hidden;
@@ -28,19 +29,21 @@
   pointer-events: auto;
 }
 
-/* ===== Modal Container ===== */
+/* ===== Modal Container (card) ===== */
 .modal__container {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
-  padding: 32px;
-  max-width: 430px;
-  width: 100%;
+  padding: 32px 50px; /* per reviewer spec */
+  /* ↓ The two lines below are the key size fixes */
+  max-width: 600px; /* was 730px — keeps the card from feeling huge */
+  width: clamp(320px, 90vw, 600px); /* prevents full-bleed look on desktop */
   margin: 0 auto;
+
   display: flex;
   flex-direction: column;
   position: relative;
-
+  box-sizing: border-box;
   transform: translateY(8px) scale(0.98);
   transition: transform 200ms ease;
 }
@@ -71,42 +74,46 @@
   object-fit: contain;
 }
 
-/* ===/* ===== Close Button Hover/Focus ===== */
+/* Hover/Focus state for the X */
 .modal__close-button:hover img,
 .modal__close-button:focus img {
-  opacity: 0.6; /* fades the X icon slightly */
+  opacity: 0.6;
   transition: opacity 0.2s ease;
 }
 
-/*== Title ===== */
-
+/* ===== Title ===== */
 .modal__title {
-  margin: 0 0 32px;
+  margin: 0; /* per reviewer */
 }
 
 /* ===== Form ===== */
 .modal__form {
-  max-width: 344px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 32px; /* per reviewer */
+}
+
+/* Form label group (added per reviewer) */
+.modal__label {
+  display: flex;
+  gap: 8px;
+  flex-direction: column;
 }
 
 /* ===== Inputs ===== */
 .modal__input {
   border: 1px solid #cfcfcf;
-  border-radius: 4px;
+  border-radius: 8px; /* per reviewer: 8px */
   padding: 12px;
   font-family: "Poppins", sans-serif;
-  font-size: 14px;
+  font-size: 20px; /* per reviewer: 20px */
   width: 100%;
   box-sizing: border-box;
 }
 
 .modal__input:hover {
-  border-color: #212121; /* same color, but fully opaque */
-  opacity: 1; /* make sure it's fully visible */
+  border-color: #212121;
+  opacity: 1;
   transition: border-color 0.2s ease, opacity 0.2s ease;
 }
 
@@ -142,4 +149,30 @@
 /* Optional modifier for New Post */
 .modal__container_type_new-post {
   /* add any special styles for new post modal */
+}
+
+/* ===== Mobile / narrow screens (per reviewer) ===== */
+@media screen and (max-width: 627px) {
+  .modal__container {
+    padding: 12px;
+    width: 94vw; /* ensure comfortable fit on small screens */
+    max-width: 600px;
+  }
+
+  .modal__submit-button {
+    width: 100%;
+  }
+
+  .modal__input {
+    font-size: 16px;
+  }
+
+  .modal__close-button {
+    top: 5px;
+    right: 5px;
+  }
+
+  .modal__title {
+    font-size: 20px;
+  }
 }

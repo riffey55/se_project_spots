@@ -78,8 +78,6 @@ const [newPostTitleInput, newPostLinkInput] =
 // Open
 newPostButton.addEventListener("click", function () {
   // Optional: clear fields on open
-  newPostTitleInput.value = "";
-  newPostLinkInput.value = "";
   newPostModal.classList.add("modal_is-opened");
 });
 
