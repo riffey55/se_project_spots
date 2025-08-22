@@ -68,15 +68,16 @@
   padding: 0;
 }
 
-.modal__close-button img {
+/* Close icon itself */
+.modal__close-icon {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-/* Hover/Focus state for the X */
-.modal__close-button:hover img,
-.modal__close-button:focus img {
+/* Hover/Focus state for the icon */
+.modal__close-button:hover .modal__close-icon,
+.modal__close-button:focus .modal__close-icon {
   opacity: 0.6;
   transition: opacity 0.2s ease;
 }

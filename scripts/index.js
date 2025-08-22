@@ -1,6 +1,6 @@
 // index.js
 // Handles modal open/close logic for Edit Profile and New Post
-// Author: Beren Riffey | Last updated: [August 6, 2025]
+// Author: Beren Riffey | Last updated: [August 22, 2025]
 
 // ===== Profile elements on the page =====
 const profileNameEl = document.querySelector(".profile__name");
