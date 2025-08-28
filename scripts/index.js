@@ -1,6 +1,33 @@
 // index.js
 // Handles modal open/close logic for Edit Profile and New Post
-// Author: Beren Riffey | Last updated: [August 22, 2025]
+// Author: Beren Riffey | Last updated: [August 28, 2025]
+
+const initialCards = [
+  {
+    name: "Val Thorens",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/1-photo-by-moritz-feldmann-from-pexels.jpg",
+  },
+  {
+    name: "Restaurant terrace",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/2-photo-by-ceiline-from-pexels.jpg",
+  },
+  {
+    name: "An outdoor cafe",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/3-photo-by-tubanur-dogan-from-pexels.jpg",
+  },
+  {
+    name: "A very long bridge, over the forest and through the trees",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/4-photo-by-maurice-laschet-from-pexels.jpg",
+  },
+  {
+    name: "Tunnel with morning light",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/5-photo-by-van-anh-nguyen-from-pexels.jpg",
+  },
+  {
+    name: "Mountain house",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/software-engineer/spots/6-photo-by-moritz-feldmann-from-pexels.jpg",
+  },
+];
 
 // ===== Profile elements on the page =====
 const profileNameEl = document.querySelector(".profile__name");
@@ -104,3 +131,8 @@ function handleAddCardSubmit(evt) {
 }
 
 addCardFormElement.addEventListener("submit", handleAddCardSubmit);
+
+initialCards.forEach(function (item) {
+  console.log("Place name:", item.name);
+  console.log("Image URL:", item.link);
+});
