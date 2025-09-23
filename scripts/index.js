@@ -36,8 +36,6 @@ const initialCards = [
 // =======================
 function openModal(modal) {
   modal.classList.add("modal_is-opened");
-
-  // optional: set focus on first input/button
   const first = modal.querySelector(
     'button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])'
   );
@@ -48,7 +46,6 @@ function closeModal(modal) {
   modal.classList.remove("modal_is-opened");
 }
 
-// Escape closes any open modal
 document.addEventListener("keydown", (evt) => {
   if (evt.key === "Escape") {
     const opened = document.querySelector(".modal.modal_is-opened");
@@ -56,17 +53,14 @@ document.addEventListener("keydown", (evt) => {
   }
 });
 
-// Utility: wire close buttons + overlay
 function wireModal(modal) {
   const closeBtn = modal.querySelector(".modal__close-button");
   if (closeBtn) closeBtn.addEventListener("click", () => closeModal(modal));
-
   modal.addEventListener("click", (evt) => {
-    if (evt.target === modal) closeModal(modal); // overlay click
+    if (evt.target === modal) closeModal(modal);
   });
 }
 
-// Apply wiring to all modals
 ["#edit-profile-modal", "#new-post-modal", "#image-preview-modal"]
   .map((sel) => document.querySelector(sel))
   .forEach((m) => m && wireModal(m));
@@ -189,7 +183,7 @@ function setDeleteIconTone(cardEl, imgEl) {
       } else {
         deleteBtn.classList.remove("card__delete-button--white");
       }
-    } catch {
+    } catch (e) {
       // Ignore CORS/security errors
     }
   }
