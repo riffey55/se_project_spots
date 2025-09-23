@@ -1,7 +1,9 @@
 // index.js
-// Handles modal open/close logic for Edit Profile and New Post
-// Author: Beren Riffey | Last updated: [August 31, 2025]
+// Author: Beren Riffey — organized + animations integrated
 
+// =======================
+// 1. Seed Data
+// =======================
 const initialCards = [
   {
     name: "Val Thorens",
@@ -29,132 +31,176 @@ const initialCards = [
   },
 ];
 
-// ===== Universal modal functions =====
+// =======================
+// 2. Modal Helpers
+// =======================
 function openModal(modal) {
   modal.classList.add("modal_is-opened");
+
+  // optional: set focus on first input/button
+  const first = modal.querySelector(
+    'button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])'
+  );
+  if (first) first.focus();
 }
 
 function closeModal(modal) {
   modal.classList.remove("modal_is-opened");
 }
 
-// ===== Escape key support for all modals =====
-document.addEventListener("keydown", function (evt) {
+// Escape closes any open modal
+document.addEventListener("keydown", (evt) => {
   if (evt.key === "Escape") {
-    const openedModal = document.querySelector(".modal.modal_is-opened");
-    if (openedModal) {
-      closeModal(openedModal);
-    }
+    const opened = document.querySelector(".modal.modal_is-opened");
+    if (opened) closeModal(opened);
   }
 });
 
-// ===== Profile elements on the page =====
+// Utility: wire close buttons + overlay
+function wireModal(modal) {
+  const closeBtn = modal.querySelector(".modal__close-button");
+  if (closeBtn) closeBtn.addEventListener("click", () => closeModal(modal));
+
+  modal.addEventListener("click", (evt) => {
+    if (evt.target === modal) closeModal(modal); // overlay
+  });
+}
+
+// Apply wiring to all modals
+["#edit-profile-modal", "#new-post-modal", "#image-preview-modal"]
+  .map((sel) => document.querySelector(sel))
+  .forEach((m) => m && wireModal(m));
+
+// =======================
+// 3. Profile Elements
+// =======================
 const profileNameEl = document.querySelector(".profile__name");
 const profileDescriptionEl = document.querySelector(".profile__description");
 
-// ===== Edit Profile modal =====
+// =======================
+// 4. Edit Profile Modal
+// =======================
 const editProfileButton = document.querySelector(".profile__edit-btn");
 const editProfileModal = document.getElementById("edit-profile-modal");
-const editProfileForm = editProfileModal.querySelector(".modal__form");
-const closeProfileModalButton = editProfileModal.querySelector(
-  ".modal__close-button"
-);
-
-// Select the form + inputs FROM INSIDE the modal (per instructions)
 const profileFormElement = editProfileModal.querySelector(".modal__form");
-const editProfileNameInput = editProfileModal.querySelector(
-  "#profile-name-input"
-);
-const editProfileDescriptionInput = editProfileModal.querySelector(
-  "#profile-description-input"
+const editProfileNameInput = document.getElementById("profile-name-input");
+const editProfileDescriptionInput = document.getElementById(
+  "profile-description-input"
 );
 
-// Open: pre-fill inputs, then open modal
-editProfileButton.addEventListener("click", function () {
+editProfileButton.addEventListener("click", () => {
   editProfileNameInput.value = profileNameEl.textContent;
   editProfileDescriptionInput.value = profileDescriptionEl.textContent;
   openModal(editProfileModal);
 });
 
-// Close (X button)
-closeProfileModalButton.addEventListener("click", function () {
-  closeModal(editProfileModal);
-});
-
-// Close when clicking overlay
-editProfileModal.addEventListener("click", function (event) {
-  if (event.target === editProfileModal) {
-    closeModal(editProfileModal);
-  }
-});
-
-// Submit handler (must be 'submit', not 'click')
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-
-  // Read input values
-  const newName = editProfileNameInput.value.trim();
-  const newDesc = editProfileDescriptionInput.value.trim();
-
-  // Update page text
-  profileNameEl.textContent = newName || profileNameEl.textContent;
-  profileDescriptionEl.textContent =
-    newDesc || profileDescriptionEl.textContent;
-
-  // Close modal
+  const name = editProfileNameInput.value.trim();
+  const desc = editProfileDescriptionInput.value.trim();
+  if (name) profileNameEl.textContent = name;
+  if (desc) profileDescriptionEl.textContent = desc;
   closeModal(editProfileModal);
 }
-
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 
-// ===== New Post modal =====
+// =======================
+// 5. New Post Modal
+// =======================
 const newPostButton = document.querySelector(".profile__add-btn");
 const newPostModal = document.getElementById("new-post-modal");
-const closeNewPostModalButton = newPostModal.querySelector(
-  ".modal__close-button"
-);
-
-// Select the form + inputs FROM INSIDE the modal (per instructions)
 const addCardFormElement = newPostModal.querySelector(".modal__form");
+const newPostTitleInput = document.getElementById("new-post-title-input");
+const newPostLinkInput = document.getElementById("new-post-url-input");
 
-// There are two inputs inside: [0] Title (text), [1] Image URL (url)
-const [newPostTitleInput, newPostLinkInput] =
-  newPostModal.querySelectorAll(".modal__input");
-
-// Open
-newPostButton.addEventListener("click", function () {
-  // Optional: clear fields on open
-  newPostTitleInput.value = "";
-  newPostLinkInput.value = "";
+newPostButton.addEventListener("click", () => {
+  addCardFormElement.reset();
   openModal(newPostModal);
 });
 
-// Close (X button)
-closeNewPostModalButton.addEventListener("click", function () {
-  closeModal(newPostModal);
-});
-
-// Close when clicking overlay
-newPostModal.addEventListener("click", function (event) {
-  if (event.target === newPostModal) {
-    closeModal(newPostModal);
-  }
-});
-
-// Submit handler: log values then close
 function handleAddCardSubmit(evt) {
   evt.preventDefault();
-
-  console.log("New Post Title:", newPostTitleInput.value);
-  console.log("New Post Image URL:", newPostLinkInput.value);
-
+  const name = newPostTitleInput.value.trim();
+  const link = newPostLinkInput.value.trim();
+  if (!name || !link) return;
+  const newCard = getCardElement({ name, link });
+  cardsContainer.prepend(newCard);
+  addCardFormElement.reset();
   closeModal(newPostModal);
 }
-
 addCardFormElement.addEventListener("submit", handleAddCardSubmit);
 
-// ===== Initial Cards =====
-initialCards.forEach(function (item) {
-  console.log("Place name:", item.name);
-  console.log("Image URL:", item.link);
+// =======================
+// 6. Image Preview Modal
+// =======================
+const imagePreviewModal = document.getElementById("image-preview-modal");
+const imagePreviewEl = imagePreviewModal.querySelector(".modal__image");
+const imageCaptionEl = imagePreviewModal.querySelector(".modal__caption");
+
+// =======================
+// 7. Animations (Reveal + Hover Zoom)
+// =======================
+// Intersection Observer for reveal
+const revealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("card_reveal_is-visible");
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.2 }
+);
+
+function enhanceForReveal(el) {
+  el.classList.add("card_reveal");
+  revealObserver.observe(el);
+}
+
+// =======================
+// 8. Cards
+// =======================
+const cardsContainer = document.querySelector(".cards__list");
+const cardTemplate = document.querySelector("#card-template").content;
+
+function getCardElement({ name, link }) {
+  const card = cardTemplate.querySelector(".card").cloneNode(true);
+
+  const img = card.querySelector(".card__image");
+  const title = card.querySelector(".card__title");
+  const likeBtn = card.querySelector(".card__like-button");
+  const deleteBtn = card.querySelector(".card__delete-button");
+
+  // Add animations
+  enhanceForReveal(card);
+  img.classList.add("card__image_hover-zoom");
+
+  // Fill content
+  img.src = link;
+  img.alt = name;
+  title.textContent = name;
+
+  // Like toggle
+  likeBtn.addEventListener("click", () => {
+    likeBtn.classList.toggle("card__like-button_is-active");
+  });
+
+  // Delete card
+  deleteBtn.addEventListener("click", () => card.remove());
+
+  // Open image preview
+  img.addEventListener("click", () => {
+    imagePreviewEl.src = link;
+    imagePreviewEl.alt = name;
+    imageCaptionEl.textContent = name;
+    openModal(imagePreviewModal);
+  });
+
+  return card;
+}
+
+// Render initial cards
+initialCards.forEach((data) => {
+  cardsContainer.append(getCardElement(data));
 });

@@ -1,0 +1,22 @@
+/* blocks/animations.css */
+
+/* ---- Reveal on scroll ---- */
+.card_reveal {
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  transition: opacity 500ms ease, transform 600ms ease;
+}
+
+.card_reveal_is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- Card image hover ---- */
+.card__image_hover-zoom {
+  transition: transform 300ms ease;
+}
+
+.card__image_hover-zoom:hover {
+  transform: scale(1.03);
+}
