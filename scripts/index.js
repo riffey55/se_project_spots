@@ -62,7 +62,7 @@ function wireModal(modal) {
   if (closeBtn) closeBtn.addEventListener("click", () => closeModal(modal));
 
   modal.addEventListener("click", (evt) => {
-    if (evt.target === modal) closeModal(modal); // overlay
+    if (evt.target === modal) closeModal(modal); // overlay click
   });
 }
 
@@ -140,7 +140,6 @@ const imageCaptionEl = imagePreviewModal.querySelector(".modal__caption");
 // =======================
 // 7. Animations (Reveal + Hover Zoom)
 // =======================
-// Intersection Observer for reveal
 const revealObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
@@ -159,7 +158,51 @@ function enhanceForReveal(el) {
 }
 
 // =======================
-// 8. Cards
+// 8. Auto-contrast helper for delete button
+// =======================
+function setDeleteIconTone(cardEl, imgEl) {
+  const deleteBtn = cardEl.querySelector(".card__delete-button");
+  if (!deleteBtn) return;
+
+  function trySample() {
+    try {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      const w = (canvas.width = 16);
+      const h = (canvas.height = 16);
+
+      ctx.drawImage(imgEl, 0, 0, w, h);
+      const data = ctx.getImageData(0, 0, w, h).data;
+
+      let sum = 0;
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i],
+          g = data[i + 1],
+          b = data[i + 2];
+        const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        sum += lum;
+      }
+      const avg = sum / (data.length / 4);
+
+      if (avg < 110) {
+        deleteBtn.classList.add("card__delete-button--white");
+      } else {
+        deleteBtn.classList.remove("card__delete-button--white");
+      }
+    } catch {
+      // Ignore CORS/security errors
+    }
+  }
+
+  if (imgEl.complete && imgEl.naturalWidth) {
+    trySample();
+  } else {
+    imgEl.addEventListener("load", trySample, { once: true });
+  }
+}
+
+// =======================
+// 9. Cards
 // =======================
 const cardsContainer = document.querySelector(".cards__list");
 const cardTemplate = document.querySelector("#card-template").content;
@@ -172,7 +215,7 @@ function getCardElement({ name, link }) {
   const likeBtn = card.querySelector(".card__like-button");
   const deleteBtn = card.querySelector(".card__delete-button");
 
-  // Add animations
+  // Animations
   enhanceForReveal(card);
   img.classList.add("card__image_hover-zoom");
 
@@ -189,13 +232,16 @@ function getCardElement({ name, link }) {
   // Delete card
   deleteBtn.addEventListener("click", () => card.remove());
 
-  // Open image preview
+  // Image preview modal
   img.addEventListener("click", () => {
     imagePreviewEl.src = link;
     imagePreviewEl.alt = name;
     imageCaptionEl.textContent = name;
     openModal(imagePreviewModal);
   });
+
+  // Auto choose icon tone
+  setDeleteIconTone(card, img);
 
   return card;
 }

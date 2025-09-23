@@ -2,17 +2,16 @@
 .modal {
   position: fixed;
   inset: 0;
-  display: grid; /* centers container nicely */
+  display: grid;
   place-items: center;
   background-color: rgba(0, 0, 0, 0.5);
   padding: 12px;
 
-  /* Transition-friendly properties */
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
-
   transition: opacity 200ms ease, visibility 200ms ease;
+  z-index: 1000; /* ensure on top */
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -22,22 +21,20 @@
   }
 }
 
-/* When opened */
 .modal_is-opened {
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
 }
 
-/* ===== Modal Container (card) ===== */
+/* ===== Modal Container ===== */
 .modal__container {
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
-  padding: 32px 50px; /* per reviewer spec */
-  /* ↓ The two lines below are the key size fixes */
-  max-width: 600px; /* was 730px — keeps the card from feeling huge */
-  width: clamp(320px, 90vw, 600px); /* prevents full-bleed look on desktop */
+  padding: 32px 50px;
+  max-width: 600px;
+  width: clamp(320px, 90vw, 600px);
   margin: 0 auto;
 
   display: flex;
@@ -67,15 +64,11 @@
   cursor: pointer;
   padding: 0;
 }
-
-/* Close icon itself */
 .modal__close-icon {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
-
-/* Hover/Focus state for the icon */
 .modal__close-button:hover .modal__close-icon,
 .modal__close-button:focus .modal__close-icon {
   opacity: 0.6;
@@ -84,17 +77,15 @@
 
 /* ===== Title ===== */
 .modal__title {
-  margin: 0; /* per reviewer */
+  margin: 0;
 }
 
 /* ===== Form ===== */
 .modal__form {
   display: flex;
   flex-direction: column;
-  gap: 32px; /* per reviewer */
+  gap: 32px;
 }
-
-/* Form label group (added per reviewer) */
 .modal__label {
   display: flex;
   gap: 8px;
@@ -104,18 +95,22 @@
 /* ===== Inputs ===== */
 .modal__input {
   border: 1px solid #cfcfcf;
-  border-radius: 8px; /* per reviewer: 8px */
+  border-radius: 8px;
   padding: 12px;
   font-family: "Poppins", sans-serif;
-  font-size: 20px; /* per reviewer: 20px */
+  font-size: 20px;
   width: 100%;
   box-sizing: border-box;
 }
 
 .modal__input:hover {
   border-color: #212121;
-  opacity: 1;
-  transition: border-color 0.2s ease, opacity 0.2s ease;
+  transition: border-color 0.2s ease;
+}
+.modal__input:focus {
+  border-color: #212121;
+  box-shadow: 0 0 0 2px #2121211a;
+  outline: none;
 }
 
 .modal__input::placeholder {
@@ -134,7 +129,6 @@
   font-family: "Poppins", sans-serif;
   font-weight: 500;
   font-size: 16px;
-  line-height: 1;
   cursor: pointer;
   transition: background-color 0.3s ease;
   align-self: flex-start;
@@ -147,33 +141,165 @@
   background-color: #333333;
 }
 
-/* Optional modifier for New Post */
-.modal__container_type_new-post {
-  /* add any special styles for new post modal */
+.modal__submit-button:focus-visible {
+  outline: 2px solid #212121;
+  outline-offset: 2px;
 }
 
-/* ===== Mobile / narrow screens (per reviewer) ===== */
+/* ===== Special Modal Variants ===== */
+.modal__container_type_new-post {
+}
+
+.modal__container_type_image {
+  padding: 12px;
+  max-width: 90vw;
+}
+.modal__image {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+.modal__caption {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+}
+
+/* ===== Card Delete Button (Trashcan with mask) ===== */
+.card__delete-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+
+  -webkit-mask: url("../images/trash.svg") center/contain no-repeat;
+  mask: url("../images/trash.svg") center/contain no-repeat;
+
+  background-color: #212121; /* default dark */
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+.card__delete-button:hover {
+  opacity: 0.7;
+}
+.card__delete-button--white {
+  background-color: #ffffff;
+}
+
+/* ===== Responsive Adjustments ===== */
 @media screen and (max-width: 627px) {
   .modal__container {
     padding: 12px;
-    width: 94vw; /* ensure comfortable fit on small screens */
+    width: 94vw;
     max-width: 600px;
   }
-
   .modal__submit-button {
     width: 100%;
   }
-
   .modal__input {
     font-size: 16px;
   }
-
   .modal__close-button {
     top: 5px;
     right: 5px;
   }
-
   .modal__title {
     font-size: 20px;
   }
+}
+
+/* Auto-contrast via blend (no JS) */
+.card__delete-button {
+  mix-blend-mode: difference; /* icon color will invert vs image */
+}
+
+/* ===== Card Delete Button (always-readable) ===== */
+.cards__list .card .card__delete-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+
+  /* inline SVG mask—keeps the same icon */
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M9 3v1H4v2h16V4h-5V3H9zm-2 6v10a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9H7zm3 2h2v8h-2v-8zm4 0h2v8h-2v-8z'/></svg>")
+    center/contain no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M9 3v1H4v2h16V4h-5V3H9zm-2 6v10a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9H7zm3 2h2v8h-2v-8zm4 0h2v8h-2v-8z'/></svg>")
+    center/contain no-repeat;
+
+  /* solid icon color (no blending) */
+  background-color: #ffffff;
+  opacity: 0.95;
+  transition: opacity 0.2s ease;
+}
+
+.cards__list .card .card__delete-button:hover {
+  opacity: 0.8;
+}
+
+/* Soft contrast chip behind the icon */
+.cards__list .card .card__delete-button::before {
+  content: "";
+  position: absolute;
+  inset: -6px; /* chip size around icon */
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(2px);
+  z-index: -1;
+}
+
+/* Optional: if I ever want a dark icon instead */
+.cards__list .card .card__delete-button.card__delete-button--dark {
+  background-color: #212121;
+}
+
+/* ===== Card Like Button (always-readable) ===== */
+.cards__list .card .card__like-button {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  /* inline SVG heart (outline by default) */
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>")
+    center/contain no-repeat;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>")
+    center/contain no-repeat;
+
+  background-color: #ffffff; /* white heart by default */
+  opacity: 0.95;
+  transition: background-color 0.3s ease, opacity 0.2s ease;
+}
+
+.cards__list .card .card__like-button:hover {
+  opacity: 0.8;
+}
+
+/* Active (liked) state — pretty pink fill */
+.cards__list .card .card__like-button.card__like-button_is-active {
+  background-color: #e63946;
+}
+
+/* Soft chip behind the heart */
+.cards__list .card .card__like-button::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(2px);
+  z-index: -1;
 }
