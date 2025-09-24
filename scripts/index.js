@@ -116,12 +116,16 @@ function handleAddCardSubmit(evt) {
   evt.preventDefault();
   const name = newPostTitleInput.value.trim();
   const link = newPostLinkInput.value.trim();
-  if (!name || !link) return;
+
+  // No need for "if (!name || !link) return;"
+  // browser will block empty submits because of `required`
+
   const newCard = getCardElement({ name, link });
   cardsContainer.prepend(newCard);
   addCardFormElement.reset();
   closeModal(newPostModal);
 }
+
 addCardFormElement.addEventListener("submit", handleAddCardSubmit);
 
 // =======================

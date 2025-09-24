@@ -47,7 +47,7 @@
       <!-- Card Template -->
       <template id="card-template">
         <li class="card">
-          <img class="card__image" src="" alt="" />
+          <img class="card__image card__image_hover-zoom" src="" alt="" />
           <button
             class="card__delete-button"
             type="button"
@@ -112,6 +112,7 @@
     </div>
 
     <!-- New Post Modal -->
+    <!-- New Post Modal -->
     <div
       class="modal"
       id="new-post-modal"
@@ -134,6 +135,7 @@
               type="text"
               class="modal__input"
               placeholder="Title"
+              required
             />
           </label>
 
@@ -144,6 +146,7 @@
               type="url"
               class="modal__input"
               placeholder="Image URL"
+              required
             />
           </label>
 
@@ -166,7 +169,7 @@
         </button>
 
         <figure class="modal__figure">
-          <img class="modal__image" src="" alt="" />
+          <img class="modal__image" src="#" alt="Preview image" />
           <figcaption
             class="modal__caption"
             id="image-preview-title"
