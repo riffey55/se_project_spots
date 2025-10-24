@@ -1,19 +1,25 @@
 /* ================================
-   INDEX.CSS IMPORTS (clean order)
+   INDEX.CSS — authoritative imports
+   Path assumptions:
+   - This file lives in /pages
+   - Core styles live in /vendor and /blocks
    ================================ */
 
-/* Base resets, fonts, variables */
-@import url("./normalize.css");
-@import url("./fonts.css");
+/* Base & typography */
+@import url("../vendor/normalize.css");
+@import url("../vendor/fonts.css");
 
-/* Core page styles */
-@import url("./header.css");
-@import url("./profile.css");
-@import url("./forms.css");
+/* Core layout blocks */
+@import url("../blocks/page.css");
+@import url("../blocks/content.css");
+@import url("../blocks/header.css");
+@import url("../blocks/profile.css");
 
-/* Cards section */
-@import url("./cards.css");
-@import url("./card.css");
+@import url("../blocks/cards.css");
+@import url("../blocks/card.css");
 
-/* Utility and validation rules */
-@import url("./validation.css");
+/* Components & utilities */
+@import url("../blocks/footer.css");
+@import url("../blocks/modal.css");
+@import url("../blocks/animations.css");
+@import url("../blocks/validation.css");
