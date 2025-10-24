@@ -1,5 +1,5 @@
 // scripts/index.js
-// Author: Beren Riffey 🌸
+// Author: Beren Riffey
 // Clean, final version — aligned with modal_is-opened CSS and validation.js
 
 // =======================
@@ -266,7 +266,3 @@ const validationSettings = {
   inputErrorClass: "modal__input_type_error",
   errorClass: "modal__error_visible",
 };
-
-if (typeof enableValidation === "function") {
-  enableValidation(validationSettings);
-}

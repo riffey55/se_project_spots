@@ -1,14 +1,22 @@
-// Configuration — update if your class names differ
+// validation.js
+// Author: Beren Riffey 🌸
+// Handles live form validation and exposes resetFormValidation() for reuse
+
+// =======================
+// 1) Settings
+// =======================
 const settings = {
   formSelector: ".modal__form",
   inputSelector: ".modal__input",
   submitButtonSelector: ".modal__submit-button",
-  inactiveButtonClass: "modal__button_disabled",
+  inactiveButtonClass: "modal__submit-button_disabled",
   inputErrorClass: "modal__input_type_error",
   errorClass: "modal__error_visible",
 };
 
-// --- helpers ---
+// =======================
+// 2) Core Helper Functions
+// =======================
 const showInputError = (formEl, inputEl, message, config) => {
   const errorEl = formEl.querySelector(`#${inputEl.id}-error`);
   inputEl.classList.add(config.inputErrorClass);
@@ -39,11 +47,14 @@ const toggleButtonState = (inputs, buttonEl, config) => {
   buttonEl.classList.toggle(config.inactiveButtonClass, disable);
 };
 
+// =======================
+// 3) Event Binding
+// =======================
 const setEventListeners = (formEl, config) => {
   const inputs = Array.from(formEl.querySelectorAll(config.inputSelector));
   const buttonEl = formEl.querySelector(config.submitButtonSelector);
 
-  // Initial state
+  // Set initial button state
   toggleButtonState(inputs, buttonEl, config);
 
   inputs.forEach((inputEl) => {
@@ -52,25 +63,26 @@ const setEventListeners = (formEl, config) => {
       toggleButtonState(inputs, buttonEl, config);
     });
   });
-
-  formEl.addEventListener("submit", (evt) => {
-    if (hasInvalidInput(inputs)) {
-      evt.preventDefault();
-      return;
-    }
-    // success path:
-    const modal = formEl.closest(".modal");
-    if (modal && typeof closeModal === "function") closeModal(modal);
-    formEl.reset();
-    inputs.forEach((i) => hideInputError(formEl, i, config));
-    toggleButtonState(inputs, buttonEl, config);
-  });
 };
 
+// =======================
+// 4) Initialization
+// =======================
 function enableValidation(config) {
   const forms = Array.from(document.querySelectorAll(config.formSelector));
   forms.forEach((formEl) => setEventListeners(formEl, config));
 }
 
-// Per the rubric, call from validation.js
+// Activate validation immediately
 enableValidation(settings);
+
+// =======================
+// 5) Reset Helper
+// =======================
+function resetFormValidation(formEl, config) {
+  const inputs = Array.from(formEl.querySelectorAll(config.inputSelector));
+  const buttonEl = formEl.querySelector(config.submitButtonSelector);
+
+  inputs.forEach((i) => hideInputError(formEl, i, config));
+  toggleButtonState(inputs, buttonEl, config);
+}
