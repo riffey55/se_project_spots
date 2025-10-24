@@ -1,12 +1,19 @@
-@import url("../vendor/normalize.css");
-@import url("../vendor/fonts.css");
-@import url("../blocks/page.css");
-@import url("../blocks/content.css");
-@import url("../blocks/header.css");
-@import url("../blocks/profile.css");
-@import url("../blocks/cards.css");
-@import url("../blocks/card.css");
-@import url("../blocks/footer.css");
-@import url("../blocks/modal.css");
-@import url("../blocks/animations.css");
-@import url("../blocks/validation.css");
+/* ================================
+   INDEX.CSS IMPORTS (clean order)
+   ================================ */
+
+/* Base resets, fonts, variables */
+@import url("./normalize.css");
+@import url("./fonts.css");
+
+/* Core page styles */
+@import url("./header.css");
+@import url("./profile.css");
+@import url("./forms.css");
+
+/* Cards section */
+@import url("./cards.css");
+@import url("./card.css");
+
+/* Utility and validation rules */
+@import url("./validation.css");
