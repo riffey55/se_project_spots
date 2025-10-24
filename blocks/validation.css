@@ -1,0 +1,33 @@
+/* validation.css */
+/* ------------------------------------------
+   Form Validation Styles — Beren Riffey
+   ------------------------------------------ */
+
+/* Disabled submit button */
+.modal__button_disabled {
+  opacity: 0.5;
+  cursor: default;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* Input error styling */
+.modal__input_type_error {
+  border-bottom: 2px solid #ff4d4d;
+  transition: border-color 0.2s ease;
+}
+
+/* Base error (hidden by default) */
+.modal__error {
+  min-height: 16px; /* reserves space to avoid layout shift */
+  font-size: 12px;
+  line-height: 1.4;
+  margin-top: 4px;
+  color: #ff4d4d;
+  visibility: hidden;
+}
+
+/* Visible error text */
+.modal__error_visible {
+  visibility: visible;
+}

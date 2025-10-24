@@ -1,8 +1,14 @@
-// index.js
-// Author: Beren Riffey — organized + animations integrated
+// scripts/index.js
+// Author: Beren Riffey 🌸
+// Clean, final version — aligned with modal_is-opened CSS and validation.js
 
 // =======================
-// 1. Seed Data
+// 1) Global Settings
+// =======================
+const OPENED_CLASS = "modal_is-opened";
+
+// =======================
+// 2) Initial Card Data
 // =======================
 const initialCards = [
   {
@@ -32,49 +38,59 @@ const initialCards = [
 ];
 
 // =======================
-// 2. Modal Helpers
+// 3) Modal Core
 // =======================
 function openModal(modal) {
-  modal.classList.add("modal_is-opened");
-  const first = modal.querySelector(
+  if (!modal) return;
+  modal.classList.add(OPENED_CLASS);
+
+  const firstFocusable = modal.querySelector(
     'button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])'
   );
-  if (first) first.focus();
+  if (firstFocusable) firstFocusable.focus();
+
+  modal.addEventListener("mousedown", handleOverlayClick);
+  document.addEventListener("keydown", handleEscClose);
 }
 
 function closeModal(modal) {
-  modal.classList.remove("modal_is-opened");
+  if (!modal) return;
+  modal.classList.remove(OPENED_CLASS);
+  modal.removeEventListener("mousedown", handleOverlayClick);
+  document.removeEventListener("keydown", handleEscClose);
 }
 
-document.addEventListener("keydown", (evt) => {
+function handleEscClose(evt) {
   if (evt.key === "Escape") {
-    const opened = document.querySelector(".modal.modal_is-opened");
-    if (opened) closeModal(opened);
+    const openedModal = document.querySelector(`.modal.${OPENED_CLASS}`);
+    if (openedModal) closeModal(openedModal);
   }
+}
+
+function handleOverlayClick(evt) {
+  if (evt.target === evt.currentTarget) {
+    closeModal(evt.currentTarget);
+  }
+}
+
+// Wire close buttons
+document.querySelectorAll(".modal__close-button").forEach((btn) => {
+  btn.addEventListener("click", () => closeModal(btn.closest(".modal")));
 });
 
-function wireModal(modal) {
-  const closeBtn = modal.querySelector(".modal__close-button");
-  if (closeBtn) closeBtn.addEventListener("click", () => closeModal(modal));
-  modal.addEventListener("click", (evt) => {
-    if (evt.target === modal) closeModal(modal);
-  });
-}
-
-["#edit-profile-modal", "#new-post-modal", "#image-preview-modal"]
-  .map((sel) => document.querySelector(sel))
-  .forEach((m) => m && wireModal(m));
+// Wire open buttons (using aria-controls)
+document.querySelectorAll("[aria-controls]").forEach((btn) => {
+  const targetId = btn.getAttribute("aria-controls");
+  const modal = document.getElementById(targetId);
+  if (modal) btn.addEventListener("click", () => openModal(modal));
+});
 
 // =======================
-// 3. Profile Elements
+// 4) Profile Edit
 // =======================
 const profileNameEl = document.querySelector(".profile__name");
 const profileDescriptionEl = document.querySelector(".profile__description");
 
-// =======================
-// 4. Edit Profile Modal
-// =======================
-const editProfileButton = document.querySelector(".profile__edit-btn");
 const editProfileModal = document.getElementById("edit-profile-modal");
 const profileFormElement = editProfileModal.querySelector(".modal__form");
 const editProfileNameInput = document.getElementById("profile-name-input");
@@ -82,61 +98,71 @@ const editProfileDescriptionInput = document.getElementById(
   "profile-description-input"
 );
 
+const editProfileButton = document.querySelector(".profile__edit-btn");
+
 editProfileButton.addEventListener("click", () => {
   editProfileNameInput.value = profileNameEl.textContent;
   editProfileDescriptionInput.value = profileDescriptionEl.textContent;
+
+  if (typeof resetFormValidation === "function") {
+    resetFormValidation(profileFormElement, validationSettings);
+  }
+
   openModal(editProfileModal);
 });
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  const name = editProfileNameInput.value.trim();
-  const desc = editProfileDescriptionInput.value.trim();
-  if (name) profileNameEl.textContent = name;
-  if (desc) profileDescriptionEl.textContent = desc;
+  profileNameEl.textContent = editProfileNameInput.value.trim();
+  profileDescriptionEl.textContent = editProfileDescriptionInput.value.trim();
   closeModal(editProfileModal);
 }
+
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 
 // =======================
-// 5. New Post Modal
+// 5) New Post Modal
 // =======================
-const newPostButton = document.querySelector(".profile__add-btn");
 const newPostModal = document.getElementById("new-post-modal");
 const addCardFormElement = newPostModal.querySelector(".modal__form");
 const newPostTitleInput = document.getElementById("new-post-title-input");
 const newPostLinkInput = document.getElementById("new-post-url-input");
+const newPostButton = document.querySelector(".profile__add-btn");
 
 newPostButton.addEventListener("click", () => {
-  addCardFormElement.reset();
   openModal(newPostModal);
 });
 
 function handleAddCardSubmit(evt) {
   evt.preventDefault();
+
   const name = newPostTitleInput.value.trim();
   const link = newPostLinkInput.value.trim();
 
-  // No need for "if (!name || !link) return;"
-  // browser will block empty submits because of `required`
+  if (!name || !link) return;
 
   const newCard = getCardElement({ name, link });
   cardsContainer.prepend(newCard);
+
   addCardFormElement.reset();
+  if (typeof resetFormValidation === "function") {
+    resetFormValidation(addCardFormElement, validationSettings);
+  }
+
   closeModal(newPostModal);
 }
 
 addCardFormElement.addEventListener("submit", handleAddCardSubmit);
 
 // =======================
-// 6. Image Preview Modal
+// 6) Image Preview Modal
 // =======================
 const imagePreviewModal = document.getElementById("image-preview-modal");
 const imagePreviewEl = imagePreviewModal.querySelector(".modal__image");
 const imageCaptionEl = imagePreviewModal.querySelector(".modal__caption");
 
 // =======================
-// 7. Animations (Reveal + Hover Zoom)
+// 7) Card Animation (Reveal + Hover Zoom)
 // =======================
 const revealObserver = new IntersectionObserver(
   (entries) => {
@@ -150,16 +176,16 @@ const revealObserver = new IntersectionObserver(
   { threshold: 0.2 }
 );
 
-function enhanceForReveal(el) {
-  el.classList.add("card_reveal");
-  revealObserver.observe(el);
+function enhanceForReveal(card) {
+  card.classList.add("card_reveal");
+  revealObserver.observe(card);
 }
 
 // =======================
-// 8. Auto-contrast helper for delete button
+// 8) Auto-Contrast for Delete Button
 // =======================
-function setDeleteIconTone(cardEl, imgEl) {
-  const deleteBtn = cardEl.querySelector(".card__delete-button");
+function setDeleteIconTone(card, img) {
+  const deleteBtn = card.querySelector(".card__delete-button");
   if (!deleteBtn) return;
 
   function trySample() {
@@ -169,68 +195,53 @@ function setDeleteIconTone(cardEl, imgEl) {
       const w = (canvas.width = 16);
       const h = (canvas.height = 16);
 
-      ctx.drawImage(imgEl, 0, 0, w, h);
+      ctx.drawImage(img, 0, 0, w, h);
       const data = ctx.getImageData(0, 0, w, h).data;
 
       let sum = 0;
       for (let i = 0; i < data.length; i += 4) {
-        const r = data[i],
-          g = data[i + 1],
-          b = data[i + 2];
-        const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+        const lum =
+          0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
         sum += lum;
       }
       const avg = sum / (data.length / 4);
-
-      if (avg < 110) {
-        deleteBtn.classList.add("card__delete-button--white");
-      } else {
-        deleteBtn.classList.remove("card__delete-button--white");
-      }
-    } catch (e) {
-      // Ignore CORS/security errors
-    }
+      avg < 110
+        ? deleteBtn.classList.add("card__delete-button--white")
+        : deleteBtn.classList.remove("card__delete-button--white");
+    } catch (_) {}
   }
 
-  if (imgEl.complete && imgEl.naturalWidth) {
-    trySample();
-  } else {
-    imgEl.addEventListener("load", trySample, { once: true });
-  }
+  img.complete && img.naturalWidth
+    ? trySample()
+    : img.addEventListener("load", trySample, { once: true });
 }
 
 // =======================
-// 9. Cards
+// 9) Cards
 // =======================
 const cardsContainer = document.querySelector(".cards__list");
 const cardTemplate = document.querySelector("#card-template").content;
 
 function getCardElement({ name, link }) {
   const card = cardTemplate.querySelector(".card").cloneNode(true);
-
   const img = card.querySelector(".card__image");
   const title = card.querySelector(".card__title");
   const likeBtn = card.querySelector(".card__like-button");
   const deleteBtn = card.querySelector(".card__delete-button");
 
-  // Animations
   enhanceForReveal(card);
   img.classList.add("card__image_hover-zoom");
 
-  // Fill content
   img.src = link;
   img.alt = name;
   title.textContent = name;
 
-  // Like toggle
   likeBtn.addEventListener("click", () => {
     likeBtn.classList.toggle("card__like-button_is-active");
   });
 
-  // Delete card
   deleteBtn.addEventListener("click", () => card.remove());
 
-  // Image preview modal
   img.addEventListener("click", () => {
     imagePreviewEl.src = link;
     imagePreviewEl.alt = name;
@@ -238,13 +249,24 @@ function getCardElement({ name, link }) {
     openModal(imagePreviewModal);
   });
 
-  // Auto choose icon tone
   setDeleteIconTone(card, img);
-
   return card;
 }
 
-// Render initial cards
-initialCards.forEach((data) => {
-  cardsContainer.append(getCardElement(data));
-});
+initialCards.forEach((card) => cardsContainer.append(getCardElement(card)));
+
+// =======================
+// 10) Validation Config
+// =======================
+const validationSettings = {
+  formSelector: ".modal__form",
+  inputSelector: ".modal__input",
+  submitButtonSelector: ".modal__submit-button",
+  inactiveButtonClass: "modal__submit-button_disabled",
+  inputErrorClass: "modal__input_type_error",
+  errorClass: "modal__error_visible",
+};
+
+if (typeof enableValidation === "function") {
+  enableValidation(validationSettings);
+}

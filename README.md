@@ -1,127 +1,86 @@
-# 📌 SE Project — **Spots** (Interactive Image Sharing UI)
+# 📌 SE Project — **Spots**
 
-A responsive, accessible image-gallery interface built with **semantic HTML**, **BEM CSS**, and clean **vanilla JavaScript patterns** (for UI behaviors). Designed from a Figma spec and deployed to GitHub Pages.
+_A responsive gallery app featuring accessible modals, reusable components, and dynamic form validation._
 
-## 🔎 Overview
+---
 
-**Spots** is an interactive front-end project from my web-development learning journey. It showcases:
+## 🌸 Overview
 
-- Responsive layouts across common screen sizes
-- Semantic, accessible markup
-- Organized CSS using **BEM** methodology
-- Clean UI interactions and intuitive navigation
+The **Spots Project** is an interactive gallery that allows users to edit their profile information and add new image posts dynamically.  
+This sprint focused on improving the **modal user experience (UX)** and implementing a **universal form validation system** written in modular JavaScript.
 
-> Goal: deliver a maintainable, mobile-first UI that feels smooth and consistent on phones, tablets, and desktops.
+---
 
 ## ✨ Features
 
-- **Responsive grid** for cards / images
-- **Modal/lightbox** behavior for viewing images (UI pattern)
-- **Add / remove card** UI flows (form validation & UX states)
-- **Profile section** UI with editable fields (pattern)
-- **Keyboard-friendly** interactions & focus styles
-- **BEM structure** for clarity and scalability
+- 🪷 **Responsive Layout** — Adjusts seamlessly across desktop, tablet, and mobile screens.
+- 💫 **Accessible Modals** — Open and close using:
+  - Escape key
+  - Overlay click
+  - Close button
+- 💻 **Reusable JavaScript Functions** — `openModal()` and `closeModal()` manage all modal logic for cleaner, scalable code.
+- 🌿 **Dynamic Validation System** — Fully configurable through a single object in `validation.js`.
+- 🖼️ **Interactive Gallery Cards** — Like, delete, and preview images in modals.
+- 🪞 **Smooth Animations** — Subtle transitions for hover and card reveal effects.
 
-## 🧰 Tech Stack
+---
 
-- **HTML5** (semantic structure)
-- **CSS3** (flexbox/grid, responsive media queries)
-- **BEM** (Block–Element–Modifier)
-- **GitHub Pages** (deployment)
+## 🚀 Live Demo
 
-## 🎨 Design Source (Figma)
+View the live project here:  
+👉 [**Spots on GitHub Pages**](https://berenriffey.github.io/se_project_spots/)
 
-- Figma spec: **[Sprint-3 Project — Spots](https://www.figma.com/file/BBNm2bC3lj8QQMHlnqRsga/Sprint-3-Project-%E2%80%94-Spots?type=design&node-id=2%3A60&mode=design&t=afgNFybdorZO6cQo-1)**
+---
 
-## 🚀 Demo
+## 🎥 Project Pitch Video
 
-- Live site: **https://riffey55.github.io/se_project_spots/**
-- Walkthrough video: **https://youtu.be/zi7RAv1cFOw**
+Check out [this video](https://www.loom.com/share/274b2877e7584aa5a32409e46ad5642f?sid=6cf3015d-79f1-477b-b4fb-fa358a30e81b),  
+where I share my project overview and the challenges I overcame while improving the modal UX and validation system. 🌸🎥✨
 
-## 🗂️ Project Structure
+---
 
-```
-/
-├─ index.html
-├─ pages/
-├─ blocks/          # BEM blocks (each with its own CSS)
-├─ images/
-├─ scripts/         # (if included for UI behaviors)
-└─ vendor/          # normalize.css or external assets
-```
+## 🧩 Tech Stack
 
-## 🧭 Getting Started (Local)
+- HTML5
+- CSS3 (BEM Methodology)
+- Vanilla JavaScript (modular functions)
+- Git & GitHub
+- Figma
 
-No build step needed.
+---
 
-```bash
-# 1) Clone
-git clone https://github.com/riffey55/se_project_spots.git
-cd se_project_spots
+## 🪞 Figma Design
 
-# 2) Open in your browser
-# (double-click index.html or serve with any static server)
-```
+🎨 [**View Original Design in Figma**](https://www.figma.com/file/ADD_FIGMA_LINK_HERE)
 
-> Optional: use a local static server (e.g., VS Code Live Server) for quick reloads.
+---
 
-## 🧩 Accessibility Notes
+## 🧠 Key Learnings
 
-- Semantic headings and landmarks
-- Sufficient color contrast from spec
-- Focus styles visible for keyboard users
-- Alt text on images and labels for forms
-- Reduced motion friendly (no aggressive animations)
+- Building **modular JavaScript** with reusable helper functions.
+- Managing **event listeners** efficiently to prevent memory leaks.
+- Designing **configurable validation systems** for scalable form logic.
+- Strengthening **debugging and DOM traversal** techniques.
 
-## 🛣️ Roadmap / Ideas
+---
 
-- Replace placeholder data with JSON and render cards dynamically
-- Persist likes/added cards locally (LocalStorage)
-- Add form validation with error states
-- Add simple search/filter for cards
-- Extract components and migrate to a framework (React) later
+## 🌼 Future Improvements
 
-## 📚 Lessons Learned
+- 🗂️ Implement localStorage to persist profile and card data.
+- 🌙 Add a dark/light theme toggle.
+- 💬 Expand validation for URL patterns and input sanitization.
 
-- How BEM naming creates predictable, scalable CSS
-- Structuring pages for responsiveness from the start
-- Turning a Figma spec into a faithful, accessible UI
-- Writing READMEs that help recruiters navigate projects quickly
-
-## 📷 Preview
-
-![Spots preview](./images/preview.png)
+---
 
 ## 🤝 Author
 
 **Beren Riffey**  
-LinkedIn • GitHub • (Optional: Portfolio)
+💻 [GitHub Profile](https://github.com/BerenRiffey)  
+🌸 Built with guidance and teamwork — from Open AI✨
 
-CSS3
+---
 
-BEM (Block Element Modifier) Methodology
+## 🩷 Acknowledgments
 
-Responsive design principles
-
-**Intro**
-
-This project is made so all the elements are displayed correctly on popular screen sizes.
-
-**Figma**
-
-- [Link to the project on Figma](https://www.figma.com/file/BBNm2bC3lj8QQMHlnqRsga/Sprint-3-Project-%E2%80%94-Spots?type=design&node-id=2%3A60&mode=design&t=afgNFybdorZO6cQo-1)
-
-**Tech Stack**
-
-- HTML
-- CSS
-- BEM
-- Responsive Design
-
-**Deployment**
-
-This webpage is deployed to GitHub Pages
-
-[Deployment Link](https://riffey55.github.io/se_project_spots/)
-
-[Watch the full video here](https://youtu.be/zi7RAv1cFOw)
+Special thanks to the **TripleTen Software Engineering Program** for providing a structured learning journey,  
+and to **OpenAI’s ChatGPT** for mentorship, debugging support, and creative collaboration. 🌷
