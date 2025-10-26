@@ -1,6 +1,6 @@
 // scripts/index.js
 // Author: Beren Riffey
-// Clean, final version — aligned with modal_is-opened CSS and validation.js
+// Clean version — CSS handles visuals; JS handles behavior only.
 
 // =======================
 // 1) Global Settings
@@ -129,16 +129,13 @@ const newPostTitleInput = document.getElementById("new-post-title-input");
 const newPostLinkInput = document.getElementById("new-post-url-input");
 const newPostButton = document.querySelector(".profile__add-btn");
 
-newPostButton.addEventListener("click", () => {
-  openModal(newPostModal);
-});
+newPostButton.addEventListener("click", () => openModal(newPostModal));
 
 function handleAddCardSubmit(evt) {
   evt.preventDefault();
 
   const name = newPostTitleInput.value.trim();
   const link = newPostLinkInput.value.trim();
-
   if (!name || !link) return;
 
   const newCard = getCardElement({ name, link });
@@ -162,62 +159,7 @@ const imagePreviewEl = imagePreviewModal.querySelector(".modal__image");
 const imageCaptionEl = imagePreviewModal.querySelector(".modal__caption");
 
 // =======================
-// 7) Card Animation (Reveal + Hover Zoom)
-// =======================
-const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("card_reveal_is-visible");
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.2 }
-);
-
-function enhanceForReveal(card) {
-  card.classList.add("card_reveal");
-  revealObserver.observe(card);
-}
-
-// =======================
-// 8) Auto-Contrast for Delete Button
-// =======================
-function setDeleteIconTone(card, img) {
-  const deleteBtn = card.querySelector(".card__delete-button");
-  if (!deleteBtn) return;
-
-  function trySample() {
-    try {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d", { willReadFrequently: true });
-      const w = (canvas.width = 16);
-      const h = (canvas.height = 16);
-
-      ctx.drawImage(img, 0, 0, w, h);
-      const data = ctx.getImageData(0, 0, w, h).data;
-
-      let sum = 0;
-      for (let i = 0; i < data.length; i += 4) {
-        const lum =
-          0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
-        sum += lum;
-      }
-      const avg = sum / (data.length / 4);
-      avg < 110
-        ? deleteBtn.classList.add("card__delete-button--white")
-        : deleteBtn.classList.remove("card__delete-button--white");
-    } catch (_) {}
-  }
-
-  img.complete && img.naturalWidth
-    ? trySample()
-    : img.addEventListener("load", trySample, { once: true });
-}
-
-// =======================
-// 9) Cards
+// 7) Cards
 // =======================
 const cardsContainer = document.querySelector(".cards__list");
 const cardTemplate = document.querySelector("#card-template").content;
@@ -229,7 +171,7 @@ function getCardElement({ name, link }) {
   const likeBtn = card.querySelector(".card__like-button");
   const deleteBtn = card.querySelector(".card__delete-button");
 
-  enhanceForReveal(card);
+  // Keep the simple hover-zoom via CSS class only
   img.classList.add("card__image_hover-zoom");
 
   img.src = link;
@@ -249,14 +191,13 @@ function getCardElement({ name, link }) {
     openModal(imagePreviewModal);
   });
 
-  setDeleteIconTone(card, img);
   return card;
 }
 
 initialCards.forEach((card) => cardsContainer.append(getCardElement(card)));
 
 // =======================
-// 10) Validation Config
+// 8) Validation Config
 // =======================
 const validationSettings = {
   formSelector: ".modal__form",
