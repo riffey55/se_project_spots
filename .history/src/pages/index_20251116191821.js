@@ -5,7 +5,7 @@
 // =======================
 // 1) Global Settings
 // =======================
-import Api from "./Api.js";
+import Api from "../scripts/Api.js";
 
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1/cohort-70",
@@ -14,7 +14,7 @@ const api = new Api({
   },
 });
 
-import "../pages/index.css";
+import "./index.css";
 import "../blocks/header.css";
 import "../blocks/profile.css";
 import "../blocks/page.css";
@@ -26,11 +26,9 @@ import "../blocks/footer.css";
 import "../vendor/normalize.css";
 import "../vendor/fonts.css";
 
-import {
-  enableValidation,
-  resetFormValidation,
-  validationConfig,
-} from "./validation.js";
+
++ import { enableValidation, resetFormValidation } from "../scripts/validation.js";
++ import { validationSettings } from "../utils/constants.js";
 
 const OPENED_CLASS = "modal_is-opened";
 // =======================
