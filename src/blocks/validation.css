@@ -4,9 +4,9 @@
    ------------------------------------------ */
 
 /* Disabled submit button */
-.modal__button_disabled {
+.modal__submit-button_disabled {
   opacity: 0.5;
-  cursor: default;
+  cursor: not-allowed;
   pointer-events: none;
   transition: opacity 0.2s ease;
 }

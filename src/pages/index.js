@@ -1,12 +1,16 @@
+// pages/index.js
+// Author: Beren Riffey
+// Clean version — CSS handles visuals; JS handles behavior only.
+
 // =======================
-// 1) Imports & API setup
+// 1) Global Settings
 // =======================
 import Api from "../scripts/Api.js";
 
 const api = new Api({
   baseUrl: "https://around-api.en.tripleten-services.com/v1",
   headers: {
-    authorization: "9ce75f8c-fb4b-4b90-b371-0e651f23de61",
+    authorization: "c8a5fac5-ef64-4f85-bf76-72701d205770",
     "Content-Type": "application/json",
   },
 });
@@ -23,13 +27,26 @@ import "../blocks/footer.css";
 import "../vendor/normalize.css";
 import "../vendor/fonts.css";
 
+import pencilIcon from "../images/pencil.svg";
+const profileEditBtn = document.querySelector(".profile__edit-btn");
+profileEditBtn.style.setProperty("--pencil-icon", `url(${pencilIcon})`);
+
+// Modal open/close class
+const OPENED_CLASS = "modal_is-opened";
+
 import {
   enableValidation,
   resetFormValidation,
 } from "../scripts/validation.js";
-import { validationSettings } from "../utils/constants.js";
 
-const OPENED_CLASS = "modal_is-opened";
+const validationSettings = {
+  formSelector: ".modal__form",
+  inputSelector: ".modal__input",
+  submitButtonSelector: ".modal__submit-button",
+  inactiveButtonClass: "modal__submit-button_disabled",
+  inputErrorClass: "modal__input_type_error",
+  errorClass: "modal__error_visible",
+};
 
 // =======================
 // 2) Core DOM elements
@@ -37,7 +54,6 @@ const OPENED_CLASS = "modal_is-opened";
 const profileNameEl = document.querySelector(".profile__name");
 const profileDescriptionEl = document.querySelector(".profile__description");
 const profileAvatarEl = document.querySelector(".profile__avatar");
-const avatarEditBtn = document.querySelector(".profile__avatar-edit-btn");
 
 const cardsContainer = document.querySelector(".cards__list");
 const cardTemplate = document.querySelector("#card-template").content;
@@ -67,28 +83,39 @@ const imagePreviewEl = imagePreviewModal.querySelector(".modal__image");
 const imageCaptionEl = imagePreviewModal.querySelector(".modal__caption");
 
 // Buttons
-const profileEditBtn = document.querySelector(".profile__edit-btn");
 const profileAddBtn = document.querySelector(".profile__add-btn");
+const avatarEditBtn = document.querySelector(".profile__avatar-edit-btn");
 
 // =======================
 // 3) Initial data load
 // =======================
+
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([userData, cards]) => {
+    // Profile
     profileNameEl.textContent = userData.name;
     profileDescriptionEl.textContent = userData.about;
     profileAvatarEl.src = userData.avatar;
 
+    // Cards from server
     cards.forEach((card) => {
       const cardEl = getCardElement(card);
       cardsContainer.append(cardEl);
     });
   })
-  .catch((err) => console.error("Initial load error:", err));
+  .catch((err) => {
+    console.error("Initial load error:", err);
+    // Optional gentle message if something is wrong with the token / API
+    alert(
+      "There was a problem loading your profile and cards from the server.\n" +
+        "Check your token or try refreshing the page."
+    );
+  });
 
 // =======================
 // 4) Modal helpers
 // =======================
+
 function openModal(modal) {
   if (!modal) return;
 
@@ -132,6 +159,7 @@ document.querySelectorAll(".modal__close-button").forEach((btn) => {
 // =======================
 // 5) Edit Profile Modal
 // =======================
+
 profileEditBtn.addEventListener("click", () => {
   editProfileNameInput.value = profileNameEl.textContent;
   editProfileDescriptionInput.value = profileDescriptionEl.textContent;
@@ -161,6 +189,7 @@ profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 // =======================
 // 6) New Post Modal
 // =======================
+
 profileAddBtn.addEventListener("click", () => {
   addCardFormElement.reset();
   resetFormValidation(addCardFormElement, validationSettings);
@@ -193,14 +222,14 @@ addCardFormElement.addEventListener("submit", handleAddCardSubmit);
 // 7) Avatar Edit Modal
 // =======================
 
-// Open using the pencil button (correct for your HTML)
+// Open using the pencil button
 avatarEditBtn.addEventListener("click", () => {
   avatarUrlInput.value = "";
   resetFormValidation(avatarFormElement, validationSettings);
   openModal(editAvatarModal);
 });
 
-// (Optional) Also open when clicking avatar image itself
+// Also open when clicking avatar image itself (nice UX)
 profileAvatarEl.addEventListener("click", () => {
   avatarUrlInput.value = "";
   resetFormValidation(avatarFormElement, validationSettings);
@@ -228,6 +257,7 @@ avatarFormElement.addEventListener("submit", handleAvatarFormSubmit);
 // =======================
 // 8) Card Factory
 // =======================
+
 function getCardElement(cardData) {
   const { name, link, _id, likes = [] } = cardData;
 
