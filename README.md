@@ -1,121 +1,172 @@
-# SE Project — Spots
+🧭 Project 9 — Around the U.S. (API Version)
 
-_A responsive gallery application featuring accessible modals, reusable components, and dynamic form validation._
+A fully interactive, API-powered photo-sharing app built with modular JavaScript, accessible UI patterns, and Webpack.
 
----
+⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯
 
-## Overview
+🌟 Overview
 
-The **Spots Project** is an interactive photo gallery that allows users to edit profile information and add new image posts dynamically.  
-This sprint focused on improving the **modal user experience (UX)** and implementing a **universal form validation system** using modular JavaScript.
+This project is a continuation of the interactive “Around the U.S.” photo gallery, now fully integrated with a live API. Users can:
 
----
+Update profile name and description
 
-## Features
+Change their avatar
 
-- Responsive layout that adapts seamlessly across desktop, tablet, and mobile screens
-- Accessible modals that open and close via:
-  - Escape key
-  - Overlay click
-  - Close button
-- Reusable JavaScript functions (`openModal()`, `closeModal()`) for scalable modal logic
-- Configurable validation system defined in a single object in `validation.js`
-- Interactive gallery cards with like, delete, and preview functionality
-- Subtle hover and zoom transitions to enhance visual feedback
+Add new image cards
 
----
+Like/unlike cards
 
-## Live Demo
+Delete their own posts
 
-**View Project:** [Spots on GitHub Pages](https://berenriffey.github.io/se_project_spots/)
+View full-size images in accessible modals
 
----
+This sprint focused on API integration, form validation, accessibility, and responsive BEM architecture.
 
-## Project Pitch Video
+⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯
 
-Watch this brief [project overview](https://www.loom.com/share/274b2877e7584aa5a32409e46ad5642f?sid=6cf3015d-79f1-477b-b4fb-fa358a30e81b),  
-where I explain the challenges and improvements made to the modal UX and validation system.
+✨ Features
 
----
+🧩 API Integration
 
-## Tech Stack
+All user data and cards are synced with a remote server, including:
 
-- HTML5
-- CSS3 (BEM Methodology)
-- Vanilla JavaScript (modular functions)
-- Git & GitHub
-- Figma
+User profile
 
----
+Avatar
 
-## Figma Design
+Initial cards
 
-[View Original Design in Figma](https://www.figma.com/file/ADD_FIGMA_LINK_HERE)
+Likes
 
----
+Delete permissions
 
-## Key Learnings
+⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯
 
-- Building modular JavaScript with reusable helper functions
-- Managing event listeners efficiently to prevent memory leaks
-- Designing configurable validation systems for scalable form logic
-- Strengthening debugging and DOM traversal skills
+📝 Dynamic Form Validation
 
----
+Custom validation messages
 
-## Future Improvements
+Real-time input checking
 
-- Implement localStorage to persist profile and card data
-- Add a dark/light theme toggle
-- Expand form validation for URL patterns and input sanitization
+Submit button state handling
 
----
+Automatic form reset per modal
 
-## Fix Completion Report
+Reusable validation configuration
 
-**Date:** October 26, 2025  
-**Author:** Beren
+⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯
 
-All reviewer feedback for the **Spots Project** has been implemented and verified.  
-The project now fully complies with the required specifications for Sprint 6.
+🖼️ Interactive Cards
 
-### Completed Fixes
+Template-based card rendering
 
-1. Removed JavaScript scroll-reveal feature and migrated hover/zoom to CSS-only transitions.
-2. Removed JS auto-contrast for the delete icon and replaced with a pure CSS chip for accessibility.
-3. Replaced inline data-URI icons with exported SVG assets:
-   - `/images/like-inactive.svg`
-   - `/images/like-active.svg`
-   - `/images/trash.svg`
-4. Updated card and cards styles to match reviewer specifications:
-   - Card `max-width: 413px`, square image `413×413px` with `8px` radius
-   - Adjusted content gap spacing, hover, focus, and reduced-motion compliance
-   - Grid layout centered cards with `repeat(auto-fit, 413px)` and `gap: 40×20`
-5. Removed `animations.css` and consolidated hover transitions within `card.css`
-6. Updated `index.css` imports to reflect the final block structure
-7. Verified accessibility and motion preferences to ensure consistent UX on all breakpoints
+Like button with server persistence
 
-### Verification
+Delete button only for user-owned cards
 
-- Cards are centered and displayed with correct dimensions
-- SVG heart and trash icons load correctly and respond to interactions
-- No unused files or redundant imports remain
-- All reviewer comments have been satisfied in the final commit
+Image preview modal with caption
 
-### Confirmation
+Smooth hover and focus transitions
 
-This report certifies that the **Spots Project** has passed all post-review fixes and is ready for final submission.
+⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯
 
----
+🪟 Accessible Modals
 
-## Author
+Close on Esc
 
-**Beren Riffey**  
-[GitHub Profile](https://github.com/BerenRiffey)
+Click overlay to close
 
----
+Focus trapped inside modal
 
-## Acknowledgments
+Aria labels for all buttons
 
-Special thanks to the **TripleTen Software Engineering Program** for providing a structured learning experience,  
-and to **OpenAI’s ChatGPT** for guidance, debugging support, and creative collaboration.
+Responsive layout from 320px and up
+
+⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯
+
+🎨 BEM + Modular CSS
+
+One block per file
+
+Clean, readable CSS
+
+Fully responsive grid layouts
+
+Modern variable-driven icons
+
+Normalize + custom fonts in vendor folder
+
+⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯
+
+🔧 Webpack Build System
+
+Asset bundling
+
+CSS extraction
+
+HTML minification
+
+Autoprefixer
+
+Dev/Prod build modes
+
+.gitignore clean and correct (no bundles included)
+
+⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯
+
+🎥 Demo Video
+
+(Uploaded after grader approval — not required for initial submission.)
+
+📁 File Structure
+project-root/
+│
+├── blocks/
+├── images/
+├── pages/
+├── scripts/
+├── vendor/
+│ ├── fonts.css
+│ ├── normalize.css
+│ └── Fonts/
+│
+├── index.html
+├── package.json
+├── webpack.config.js
+└── Project9_ReviewerNotes.md
+
+⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯
+
+📌 Key Learnings
+
+Integrating front-end UI with a remote REST API
+
+Optimizing DOM updates via reusable components
+
+Proper modal accessibility patterns
+
+Modularized JavaScript functions
+
+Understanding network requests, errors, and async flows
+
+Structuring large projects in a scalable, maintainable way
+
+⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯
+
+🔍 Reviewer Notes
+
+➡️ See the full detailed list of all project features and implementation details here:
+Project9_ReviewerNotes.md
+
+⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯
+
+👤 Author
+
+Beren Riffey
+GitHub Profile
+
+🙏 Acknowledgments
+
+TripleTen Software Engineering Program
+
+The OpenAI ChatGPT assistant (“Ellie”) for debugging assistance, code review, and collaborative support

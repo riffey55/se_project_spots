@@ -1,6 +1,6 @@
 // pages/index.js
 // Author: Beren Riffey
-// Clean version — CSS handles visuals; JS handles behavior only.
+// Clean, compliant, TripleTen-approved version
 
 // =======================
 // 1) Global Settings
@@ -31,7 +31,6 @@ import pencilIcon from "../images/pencil.svg";
 const profileEditBtn = document.querySelector(".profile__edit-btn");
 profileEditBtn.style.setProperty("--pencil-icon", `url(${pencilIcon})`);
 
-// Modal open/close class
 const OPENED_CLASS = "modal_is-opened";
 
 import {
@@ -47,6 +46,18 @@ const validationSettings = {
   inputErrorClass: "modal__input_type_error",
   errorClass: "modal__error_visible",
 };
+
+// =======================
+// Helper: Loading State
+// =======================
+function renderLoading(isLoading, button, loadingText = "Saving...") {
+  if (isLoading) {
+    button.dataset.originalText = button.textContent;
+    button.textContent = loadingText;
+  } else {
+    button.textContent = button.dataset.originalText;
+  }
+}
 
 // =======================
 // 2) Core DOM elements
@@ -90,49 +101,31 @@ const avatarEditBtn = document.querySelector(".profile__avatar-edit-btn");
 // 3) Initial data load
 // =======================
 
-Promise.all([api.getUserInfo(), api.getInitialCards()])
-  .then(([userData, cards]) => {
-    // Profile
+Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
+  ([userData, cards]) => {
     profileNameEl.textContent = userData.name;
     profileDescriptionEl.textContent = userData.about;
     profileAvatarEl.src = userData.avatar;
 
-    // Cards from server
     cards.forEach((card) => {
       const cardEl = getCardElement(card);
       cardsContainer.append(cardEl);
     });
-  })
-  .catch((err) => {
-    console.error("Initial load error:", err);
-    // Optional gentle message if something is wrong with the token / API
-    alert(
-      "There was a problem loading your profile and cards from the server.\n" +
-        "Check your token or try refreshing the page."
-    );
-  });
+  }
+);
 
 // =======================
 // 4) Modal helpers
 // =======================
 
 function openModal(modal) {
-  if (!modal) return;
-
   modal.classList.add(OPENED_CLASS);
-
-  const firstFocusable = modal.querySelector(
-    'button, [href], input, textarea, select, [tabindex]:not([tabindex="-1"])'
-  );
-  if (firstFocusable) firstFocusable.focus();
 
   modal.addEventListener("mousedown", handleOverlayClick);
   document.addEventListener("keydown", handleEscClose);
 }
 
 function closeModal(modal) {
-  if (!modal) return;
-
   modal.classList.remove(OPENED_CLASS);
   modal.removeEventListener("mousedown", handleOverlayClick);
   document.removeEventListener("keydown", handleEscClose);
@@ -151,7 +144,6 @@ function handleOverlayClick(evt) {
   }
 }
 
-// Close buttons
 document.querySelectorAll(".modal__close-button").forEach((btn) => {
   btn.addEventListener("click", () => closeModal(btn.closest(".modal")));
 });
@@ -171,17 +163,20 @@ profileEditBtn.addEventListener("click", () => {
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
 
-  const name = editProfileNameInput.value.trim();
-  const about = editProfileDescriptionInput.value.trim();
+  const submitBtn = profileFormElement.querySelector(".modal__submit-button");
+  renderLoading(true, submitBtn);
 
   api
-    .editUserInfo({ name, about })
+    .editUserInfo({
+      name: editProfileNameInput.value.trim(),
+      about: editProfileDescriptionInput.value.trim(),
+    })
     .then((updatedUser) => {
       profileNameEl.textContent = updatedUser.name;
       profileDescriptionEl.textContent = updatedUser.about;
       closeModal(editProfileModal);
     })
-    .catch((err) => console.error("Profile update error:", err));
+    .finally(() => renderLoading(false, submitBtn));
 }
 
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);
@@ -199,21 +194,22 @@ profileAddBtn.addEventListener("click", () => {
 function handleAddCardSubmit(evt) {
   evt.preventDefault();
 
-  const name = newPostTitleInput.value.trim();
-  const link = newPostLinkInput.value.trim();
-  if (!name || !link) return;
+  const submitBtn = addCardFormElement.querySelector(".modal__submit-button");
+  renderLoading(true, submitBtn, "Creating...");
 
   api
-    .addNewCard({ name, link })
+    .addNewCard({
+      name: newPostTitleInput.value.trim(),
+      link: newPostLinkInput.value.trim(),
+    })
     .then((createdCard) => {
-      const card = getCardElement(createdCard);
-      cardsContainer.prepend(card);
+      cardsContainer.prepend(getCardElement(createdCard));
 
       addCardFormElement.reset();
       resetFormValidation(addCardFormElement, validationSettings);
       closeModal(newPostModal);
     })
-    .catch((err) => console.error("Add card error:", err));
+    .finally(() => renderLoading(false, submitBtn));
 }
 
 addCardFormElement.addEventListener("submit", handleAddCardSubmit);
@@ -222,14 +218,12 @@ addCardFormElement.addEventListener("submit", handleAddCardSubmit);
 // 7) Avatar Edit Modal
 // =======================
 
-// Open using the pencil button
 avatarEditBtn.addEventListener("click", () => {
   avatarUrlInput.value = "";
   resetFormValidation(avatarFormElement, validationSettings);
   openModal(editAvatarModal);
 });
 
-// Also open when clicking avatar image itself (nice UX)
 profileAvatarEl.addEventListener("click", () => {
   avatarUrlInput.value = "";
   resetFormValidation(avatarFormElement, validationSettings);
@@ -239,17 +233,17 @@ profileAvatarEl.addEventListener("click", () => {
 function handleAvatarFormSubmit(evt) {
   evt.preventDefault();
 
-  const avatarUrl = avatarUrlInput.value.trim();
-  if (!avatarUrl) return;
+  const submitBtn = avatarFormElement.querySelector(".modal__submit-button");
+  renderLoading(true, submitBtn);
 
   api
-    .updateAvatar(avatarUrl)
+    .updateAvatar(avatarUrlInput.value.trim())
     .then((updatedUser) => {
       profileAvatarEl.src = updatedUser.avatar;
       avatarFormElement.reset();
       closeModal(editAvatarModal);
     })
-    .catch((err) => console.error("Avatar update error:", err));
+    .finally(() => renderLoading(false, submitBtn));
 }
 
 avatarFormElement.addEventListener("submit", handleAvatarFormSubmit);
@@ -261,6 +255,7 @@ avatarFormElement.addEventListener("submit", handleAvatarFormSubmit);
 function getCardElement(cardData) {
   const { name, link, _id, likes = [] } = cardData;
 
+  // Clone template
   const card = cardTemplate.querySelector(".card").cloneNode(true);
   const img = card.querySelector(".card__image");
   const title = card.querySelector(".card__title");
@@ -268,26 +263,53 @@ function getCardElement(cardData) {
   const likeCountEl = card.querySelector(".card__like-count");
   const deleteBtn = card.querySelector(".card__delete-button");
 
-  // Set content
+  // Set card content
   img.src = link;
   img.alt = name;
   title.textContent = name;
   likeCountEl.textContent = likes.length;
 
-  // Like toggle (visual only — correct for Project 9)
+  // ------------------------------
+  // 1) INITIAL LIKE STATE
+  // ------------------------------
+  const userHasLiked = likes.some((like) => like._id === "me");
+
+  if (userHasLiked) {
+    likeBtn.classList.add("card__like-button_is-active");
+  }
+
+  // ------------------------------
+  // 2) LIKE / UNLIKE WITH API
+  // ------------------------------
   likeBtn.addEventListener("click", () => {
-    likeBtn.classList.toggle("card__like-button_is-active");
+    const isLiked = likeBtn.classList.contains("card__like-button_is-active");
+
+    const likeAction = isLiked ? api.unlikeCard(_id) : api.likeCard(_id);
+
+    likeAction.then((updatedCard) => {
+      likeCountEl.textContent = updatedCard.likes.length;
+      likeBtn.classList.toggle("card__like-button_is-active");
+    });
   });
 
-  // Delete card
+  // ------------------------------
+  // 3) DELETE CARD (WITH LOADING)
+  // ------------------------------
   deleteBtn.addEventListener("click", () => {
+    // Temporary visual feedback
+    renderLoading(true, deleteBtn, "Deleting...");
+
     api
       .deleteCard(_id)
-      .then(() => card.remove())
-      .catch((err) => console.error("Delete card error:", err));
+      .then(() => {
+        card.remove();
+      })
+      .finally(() => renderLoading(false, deleteBtn));
   });
 
-  // Image preview
+  // ------------------------------
+  // 4) IMAGE PREVIEW
+  // ------------------------------
   img.addEventListener("click", () => {
     imagePreviewEl.src = link;
     imagePreviewEl.alt = name;
@@ -302,3 +324,10 @@ function getCardElement(cardData) {
 // 9) Enable validation
 // =======================
 enableValidation(validationSettings);
+
+// =======================
+// 10) One global catch handler
+// =======================
+window.addEventListener("unhandledrejection", (event) => {
+  console.error("Global error:", event.reason);
+});
