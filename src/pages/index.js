@@ -50,6 +50,7 @@ const validationSettings = {
 // =======================
 // Helper: Loading State
 // =======================
+
 function renderLoading(isLoading, button, loadingText = "Saving...") {
   if (isLoading) {
     button.dataset.originalText = button.textContent;
@@ -74,12 +75,14 @@ const editProfileModal = document.getElementById("edit-profile-modal");
 const newPostModal = document.getElementById("new-post-modal");
 const imagePreviewModal = document.getElementById("image-preview-modal");
 const editAvatarModal = document.getElementById("edit-avatar-modal");
+const deleteModal = document.getElementById("delete-modal");
 
 // Forms & inputs
+const deleteFormElement = document.getElementById("delete-form");
 const profileFormElement = editProfileModal.querySelector(".modal__form");
 const editProfileNameInput = document.getElementById("profile-name-input");
 const editProfileDescriptionInput = document.getElementById(
-  "profile-description-input"
+  "profile-description-input",
 );
 
 const addCardFormElement = newPostModal.querySelector(".modal__form");
@@ -97,12 +100,17 @@ const imageCaptionEl = imagePreviewModal.querySelector(".modal__caption");
 const profileAddBtn = document.querySelector(".profile__add-btn");
 const avatarEditBtn = document.querySelector(".profile__avatar-edit-btn");
 
+let selectedCard = null;
+let selectedCardId = null;
+let currentUserId = null;
+
 // =======================
 // 3) Initial data load
 // =======================
 
-Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
-  ([userData, cards]) => {
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([userData, cards]) => {
+    currentUserId = userData._id;
     profileNameEl.textContent = userData.name;
     profileDescriptionEl.textContent = userData.about;
     profileAvatarEl.src = userData.avatar;
@@ -111,8 +119,10 @@ Promise.all([api.getUserInfo(), api.getInitialCards()]).then(
       const cardEl = getCardElement(card);
       cardsContainer.append(cardEl);
     });
-  }
-);
+  })
+  .catch((err) => {
+    console.error("Error loading initial data:", err);
+  });
 
 // =======================
 // 4) Modal helpers
@@ -176,6 +186,9 @@ function handleProfileFormSubmit(evt) {
       profileDescriptionEl.textContent = updatedUser.about;
       closeModal(editProfileModal);
     })
+    .catch((err) => {
+      console.error("Error updating profile:", err);
+    })
     .finally(() => renderLoading(false, submitBtn));
 }
 
@@ -204,10 +217,12 @@ function handleAddCardSubmit(evt) {
     })
     .then((createdCard) => {
       cardsContainer.prepend(getCardElement(createdCard));
-
       addCardFormElement.reset();
       resetFormValidation(addCardFormElement, validationSettings);
       closeModal(newPostModal);
+    })
+    .catch((err) => {
+      console.error("Error adding card:", err);
     })
     .finally(() => renderLoading(false, submitBtn));
 }
@@ -243,10 +258,37 @@ function handleAvatarFormSubmit(evt) {
       avatarFormElement.reset();
       closeModal(editAvatarModal);
     })
+    .catch((err) => {
+      console.error("Error updating avatar:", err);
+    })
     .finally(() => renderLoading(false, submitBtn));
 }
 
 avatarFormElement.addEventListener("submit", handleAvatarFormSubmit);
+
+function handleDeleteFormSubmit(evt) {
+  evt.preventDefault();
+
+  const submitBtn = deleteFormElement.querySelector(".modal__submit-button");
+  renderLoading(true, submitBtn, "Deleting...");
+
+  api
+    .deleteCard(selectedCardId)
+    .then(() => {
+      selectedCard.remove();
+      selectedCard = null;
+      selectedCardId = null;
+      closeModal(deleteModal);
+    })
+    .catch((err) => {
+      console.error("Error deleting card:", err);
+    })
+    .finally(() => {
+      renderLoading(false, submitBtn);
+    });
+}
+
+deleteFormElement.addEventListener("submit", handleDeleteFormSubmit);
 
 // =======================
 // 8) Card Factory
@@ -272,8 +314,8 @@ function getCardElement(cardData) {
   // ------------------------------
   // 1) INITIAL LIKE STATE
   // ------------------------------
-  const userHasLiked = likes.some((like) => like._id === "me");
 
+  const userHasLiked = likes.some((like) => like._id === currentUserId);
   if (userHasLiked) {
     likeBtn.classList.add("card__like-button_is-active");
   }
@@ -281,30 +323,44 @@ function getCardElement(cardData) {
   // ------------------------------
   // 2) LIKE / UNLIKE WITH API
   // ------------------------------
+
   likeBtn.addEventListener("click", () => {
     const isLiked = likeBtn.classList.contains("card__like-button_is-active");
-
     const likeAction = isLiked ? api.unlikeCard(_id) : api.likeCard(_id);
 
-    likeAction.then((updatedCard) => {
-      likeCountEl.textContent = updatedCard.likes.length;
-      likeBtn.classList.toggle("card__like-button_is-active");
-    });
+    likeAction
+      .then((updatedCard) => {
+        const newLikedState =
+          typeof updatedCard.isLiked === "boolean"
+            ? updatedCard.isLiked
+            : (updatedCard.likes || []).some(
+                (like) => like._id === currentUserId,
+              );
+
+        let currentCount = Number(likeCountEl.textContent) || 0;
+
+        if (newLikedState && !isLiked) {
+          currentCount += 1;
+        } else if (!newLikedState && isLiked) {
+          currentCount -= 1;
+        }
+
+        likeCountEl.textContent = currentCount;
+        likeBtn.classList.toggle("card__like-button_is-active", newLikedState);
+      })
+      .catch((err) => {
+        console.error("Error updating like:", err);
+      });
   });
 
   // ------------------------------
   // 3) DELETE CARD (WITH LOADING)
   // ------------------------------
-  deleteBtn.addEventListener("click", () => {
-    // Temporary visual feedback
-    renderLoading(true, deleteBtn, "Deleting...");
 
-    api
-      .deleteCard(_id)
-      .then(() => {
-        card.remove();
-      })
-      .finally(() => renderLoading(false, deleteBtn));
+  deleteBtn.addEventListener("click", () => {
+    selectedCard = card;
+    selectedCardId = _id;
+    openModal(deleteModal);
   });
 
   // ------------------------------

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -97,6 +97,7 @@
                 id="new-post-title-input"
                 type="text"
                 class="modal__input"
+                placeholder="Title"
                 required
                 minlength="2"
                 maxlength="30"
@@ -110,6 +111,7 @@
                 id="new-post-url-input"
                 type="url"
                 class="modal__input"
+                placeholder="Image URL"
                 required
               />
               <span class="modal__error" id="new-post-url-input-error"></span>
@@ -150,6 +152,7 @@
                 type="text"
                 id="profile-name-input"
                 class="modal__input"
+                placeholder="Name"
                 required
                 minlength="2"
                 maxlength="40"
@@ -163,6 +166,7 @@
                 type="text"
                 id="profile-description-input"
                 class="modal__input"
+                placeholder="Description"
                 required
                 minlength="2"
                 maxlength="200"
@@ -194,12 +198,25 @@
                 id="avatar-url-input"
                 type="url"
                 class="modal__input"
+                placeholder="Avatar URL"
                 required
               />
               <span class="modal__error" id="avatar-url-input-error"></span>
             </label>
 
             <button type="submit" class="modal__submit-button">Save</button>
+          </form>
+        </div>
+      </div>
+      <div class="modal" id="delete-modal" role="dialog">
+        <div class="modal__container">
+          <button class="modal__close-button" type="button" aria-label="Close">
+            ✕
+          </button>
+
+          <form class="modal__form" id="delete-form" novalidate>
+            <h2 class="modal__title">Are you sure?</h2>
+            <button type="submit" class="modal__submit-button">Delete</button>
           </form>
         </div>
       </div>
