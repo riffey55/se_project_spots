@@ -1,10 +1,5 @@
 Project 9 — Reviewer Notes
 
-GitHub repository: https://github.com/riffey55/se_project_spots
-Project video (YouTube): (https://youtu.be/VQ26yLrJ41I)
-
-..........
-
 Thank you for reviewing my Project 9 submission!
 This file provides a clear and organized overview of the project’s completed functionality to help streamline your review.
 
