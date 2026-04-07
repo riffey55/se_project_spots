@@ -1,0 +1,5 @@
+[33mf5f9594[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mspots-final[m[33m)[m Update README and reviewer notes
+[33m54e31af[m[33m ([m[1;31morigin/spots-final[m[33m)[m Fix avatar edit button, correct project structure, clean folders
+[33mbe8084b[m Remove unused CSS/JS includes; fix webpack errors
+[33mcf5292a[m Remove node_modules from version control
+[33m02c3eb0[m Add Project 9 Reviewer Notes file for final submission
