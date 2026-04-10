@@ -157,10 +157,8 @@ Structuring large projects in a scalable, maintainable way
 
 ➡️ See the full detailed list of all project features and implementation details here:
 Project9_ReviewerNotes.md
-GitHub repository: https://github.com/riffey55/se_project_spots
-Project video (YouTube): (https://youtu.be/VQ26yLrJ41I)
-
-⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯
+Git Hub: (https://github.com/riffey55/se_project_spots)
+YouTube: (https://youtu.be/EHlxlgmhzrU?si=kp1aCRo-M1eZ3o3r)
 
 👤 Author
 

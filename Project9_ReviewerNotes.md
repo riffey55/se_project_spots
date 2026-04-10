@@ -1,7 +1,7 @@
 Project 9 — Reviewer Notes
 
-GitHub repository: https://github.com/riffey55/se_project_spots
-Project video (YouTube): (https://youtu.be/VQ26yLrJ41I?si=MZGmF1ogZxj3F1dB)
+GitHub repository: (https://github.com/riffey55/se_project_spots)
+Project video (YouTube): (https://youtu.be/EHlxlgmhzrU?si=ZUc6WS3WvPe_ucZw)
 
 ..........
 
