@@ -1,7 +1,7 @@
 Project 9 — Reviewer Notes
 
 GitHub repository: (https://github.com/riffey55/se_project_spots)
-Project video (YouTube): (https://youtu.be/EHlxlgmhzrU?si=ZUc6WS3WvPe_ucZw)
+Project video (YouTube): (https://youtu.be/lV4fxsCVVvY?si=EeaXbaa2xTbgbXaM)
 
 ..........
 
@@ -52,15 +52,11 @@ All modals support the following:
 
 Close on overlay click
 
-Close on Esc key
-
 Smooth open/close transitions
 
 Loading text during submission (“Saving…”, “Creating…”, etc.)
 
 Reset form fields on open
-
-Proper focus behavior
 
 role="dialog" and aria-label attributes where appropriate
 

@@ -15,7 +15,9 @@
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 200ms ease, visibility 200ms ease;
+  transition:
+    opacity 200ms ease,
+    visibility 200ms ease;
   z-index: 1000;
 }
 
@@ -183,22 +185,31 @@
 
 /* Image preview modal */
 .modal__container_type_image {
-  padding: 12px;
-  max-width: 90vw;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+  width: auto;
+  max-width: unset;
+  position: relative;
+}
+
+.modal__figure {
+  margin: 0;
+  position: relative;
 }
 
 .modal__image {
   display: block;
-  max-width: 100%;
-  height: auto;
+  max-width: 80vw;
+  max-height: 80vh;
   border-radius: 8px;
 }
 
 .modal__caption {
-  margin-top: 8px;
-  text-align: center;
-  font-size: 14px;
-  color: #555;
+  margin: 8px 0 0;
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.2;
 }
 
 /* ---------- Responsive ---------- */
@@ -224,4 +235,54 @@
   .modal__title {
     font-size: 20px;
   }
+}
+.modal__container_type_delete {
+  max-width: 630px;
+}
+
+.modal__form_type_delete {
+  gap: 32px;
+}
+
+.modal__actions {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-direction: column;
+}
+
+.modal__button {
+  width: 156px;
+  height: 52px;
+  border-radius: 8px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.modal__button_type_cancel {
+  border: 1px solid #212121;
+  background-color: transparent;
+  color: #212121;
+}
+
+.modal__button_type_cancel:hover {
+  opacity: 0.8;
+}
+
+.modal__container_type_image .modal__close-button {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 2;
 }

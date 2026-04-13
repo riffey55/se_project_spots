@@ -102,7 +102,6 @@ const avatarEditBtn = document.querySelector(".profile__avatar-edit-btn");
 
 let selectedCard = null;
 let selectedCardId = null;
-let currentUserId = null;
 
 // =======================
 // 3) Initial data load
@@ -110,7 +109,6 @@ let currentUserId = null;
 
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(([userData, cards]) => {
-    currentUserId = userData._id;
     profileNameEl.textContent = userData.name;
     profileDescriptionEl.textContent = userData.about;
     profileAvatarEl.src = userData.avatar;
@@ -290,33 +288,30 @@ function handleDeleteFormSubmit(evt) {
 
 deleteFormElement.addEventListener("submit", handleDeleteFormSubmit);
 
+const deleteCancelBtn = deleteModal.querySelector(".modal__button_type_cancel");
+
+deleteCancelBtn.addEventListener("click", () => {
+  closeModal(deleteModal);
+});
+
 // =======================
 // 8) Card Factory
 // =======================
 
 function getCardElement(cardData) {
-  const { name, link, _id, likes = [] } = cardData;
+  const { name, link, _id, isLiked } = cardData;
 
-  // Clone template
   const card = cardTemplate.querySelector(".card").cloneNode(true);
   const img = card.querySelector(".card__image");
   const title = card.querySelector(".card__title");
   const likeBtn = card.querySelector(".card__like-button");
-  const likeCountEl = card.querySelector(".card__like-count");
   const deleteBtn = card.querySelector(".card__delete-button");
 
-  // Set card content
   img.src = link;
   img.alt = name;
   title.textContent = name;
-  likeCountEl.textContent = likes.length;
 
-  // ------------------------------
-  // 1) INITIAL LIKE STATE
-  // ------------------------------
-
-  const userHasLiked = likes.some((like) => like._id === currentUserId);
-  if (userHasLiked) {
+  if (isLiked) {
     likeBtn.classList.add("card__like-button_is-active");
   }
 
@@ -330,29 +325,15 @@ function getCardElement(cardData) {
 
     likeAction
       .then((updatedCard) => {
-        const newLikedState =
-          typeof updatedCard.isLiked === "boolean"
-            ? updatedCard.isLiked
-            : (updatedCard.likes || []).some(
-                (like) => like._id === currentUserId,
-              );
-
-        let currentCount = Number(likeCountEl.textContent) || 0;
-
-        if (newLikedState && !isLiked) {
-          currentCount += 1;
-        } else if (!newLikedState && isLiked) {
-          currentCount -= 1;
-        }
-
-        likeCountEl.textContent = currentCount;
-        likeBtn.classList.toggle("card__like-button_is-active", newLikedState);
+        likeBtn.classList.toggle(
+          "card__like-button_is-active",
+          updatedCard.isLiked,
+        );
       })
       .catch((err) => {
         console.error("Error updating like:", err);
       });
   });
-
   // ------------------------------
   // 3) DELETE CARD (WITH LOADING)
   // ------------------------------

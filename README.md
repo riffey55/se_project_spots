@@ -76,8 +76,6 @@ Close on Esc
 
 Click overlay to close
 
-Focus trapped inside modal
-
 Aria labels for all buttons
 
 Responsive layout from 320px and up
@@ -116,7 +114,9 @@ Dev/Prod build modes
 
 🎥 Demo Video
 
-(Uploaded after grader approval — not required for initial submission.)
+(https://youtu.be/lV4fxsCVVvY?si=EeaXbaa2xTbgbXaM)
+
+⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯
 
 📁 File Structure
 project-root/
@@ -158,7 +158,7 @@ Structuring large projects in a scalable, maintainable way
 ➡️ See the full detailed list of all project features and implementation details here:
 Project9_ReviewerNotes.md
 Git Hub: (https://github.com/riffey55/se_project_spots)
-YouTube: (https://youtu.be/EHlxlgmhzrU?si=kp1aCRo-M1eZ3o3r)
+YouTube: (https://youtu.be/lV4fxsCVVvY?si=EeaXbaa2xTbgbXaM)
 
 👤 Author
 
