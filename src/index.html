@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spots</title>
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico" />
+  </head>
+
+  <body class="page">
+    <header class="header">
+      <img src="./images/Logo.svg" alt="Spots logo" class="header__logo" />
+    </header>
+
+    <main class="content">
+      <!-- Profile -->
+      <section class="profile page__section">
+        <div class="profile__avatar-container">
+          <img
+            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
+            alt="User avatar"
+            class="profile__avatar"
+          />
+          <button
+            type="button"
+            class="profile__avatar-edit-btn"
+            aria-controls="edit-avatar-modal"
+          >
+            <span class="profile__avatar-edit-label">Edit Avatar</span>
+          </button>
+        </div>
+
+        <div class="profile__column">
+          <h1 class="profile__name">Placeholder name</h1>
+          <p class="profile__description">Placeholder description</p>
+
+          <button
+            type="button"
+            class="profile__edit-btn"
+            aria-controls="edit-profile-modal"
+          >
+            Edit Profile
+          </button>
+        </div>
+
+        <button
+          type="button"
+          class="profile__add-btn"
+          aria-controls="new-post-modal"
+        >
+          New Post
+        </button>
+      </section>
+
+      <!-- Cards -->
+      <section class="cards page__section">
+        <ul class="cards__list"></ul>
+      </section>
+
+      <!-- Card Template -->
+      <template id="card-template">
+        <li class="card">
+          <img class="card__image" alt="Card image" />
+          <button
+            class="card__delete-button"
+            type="button"
+            aria-label="Delete"
+          ></button>
+
+          <div class="card__content">
+            <h2 class="card__title"></h2>
+            <button
+              class="card__like-button"
+              type="button"
+              aria-label="Like"
+            ></button>
+          </div>
+        </li>
+      </template>
+
+      <!-- New Post Modal -->
+      <div class="modal" id="new-post-modal" role="dialog">
+        <div class="modal__container modal__container_type_new-post">
+          <button class="modal__close-button" type="button" aria-label="Close">
+            ✕
+          </button>
+
+          <form class="modal__form" novalidate>
+            <h2 class="modal__title">New post</h2>
+
+            <label class="modal__label">
+              Title
+              <input
+                id="new-post-title-input"
+                type="text"
+                class="modal__input"
+                placeholder="Title"
+                required
+                minlength="2"
+                maxlength="30"
+              />
+              <span class="modal__error" id="new-post-title-input-error"></span>
+            </label>
+
+            <label class="modal__label">
+              Image URL
+              <input
+                id="new-post-url-input"
+                type="url"
+                class="modal__input"
+                placeholder="Image URL"
+                required
+              />
+              <span class="modal__error" id="new-post-url-input-error"></span>
+            </label>
+
+            <button type="submit" class="modal__submit-button">Create</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Image Preview Modal -->
+      <div class="modal" id="image-preview-modal" role="dialog">
+        <div class="modal__container modal__container_type_image">
+          <button class="modal__close-button" type="button" aria-label="Close">
+            ✕
+          </button>
+
+          <figure class="modal__figure">
+            <img class="modal__image" alt="Preview image" />
+            <figcaption class="modal__caption"></figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- Edit Profile Modal -->
+      <div class="modal" id="edit-profile-modal" role="dialog">
+        <div class="modal__container">
+          <button class="modal__close-button" type="button" aria-label="Close">
+            ✕
+          </button>
+
+          <form class="modal__form" novalidate>
+            <h2 class="modal__title">Edit Profile</h2>
+
+            <label class="modal__label">
+              Name
+              <input
+                type="text"
+                id="profile-name-input"
+                class="modal__input"
+                placeholder="Name"
+                required
+                minlength="2"
+                maxlength="40"
+              />
+              <span class="modal__error" id="profile-name-input-error"></span>
+            </label>
+
+            <label class="modal__label">
+              About
+              <input
+                type="text"
+                id="profile-description-input"
+                class="modal__input"
+                placeholder="Description"
+                required
+                minlength="2"
+                maxlength="200"
+              />
+              <span
+                class="modal__error"
+                id="profile-description-input-error"
+              ></span>
+            </label>
+
+            <button type="submit" class="modal__submit-button">Save</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Edit Avatar Modal -->
+      <div class="modal" id="edit-avatar-modal" role="dialog">
+        <div class="modal__container">
+          <button class="modal__close-button" type="button" aria-label="Close">
+            ✕
+          </button>
+
+          <form class="modal__form" novalidate>
+            <h2 class="modal__title">Edit Avatar</h2>
+
+            <label class="modal__label">
+              Avatar URL
+              <input
+                id="avatar-url-input"
+                type="url"
+                class="modal__input"
+                placeholder="Avatar URL"
+                required
+              />
+              <span class="modal__error" id="avatar-url-input-error"></span>
+            </label>
+
+            <button type="submit" class="modal__submit-button">Save</button>
+          </form>
+        </div>
+      </div>
+      <
+      <div class="modal" id="delete-modal" role="dialog">
+        <div class="modal__container modal__container_type_delete">
+          <button class="modal__close-button" type="button" aria-label="Close">
+            ✕
+          </button>
+
+          <form
+            class="modal__form modal__form_type_delete"
+            id="delete-form"
+            novalidate
+          >
+            <h2 class="modal__title">Are you sure?</h2>
+            <div class="modal__actions">
+              <button type="submit" class="modal__submit-button">Delete</button>
+              <button
+                type="button"
+                class="modal__button modal__button_type_cancel"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      >
+    </main>
+  </body>
+</html>
