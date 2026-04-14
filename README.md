@@ -1,5 +1,7 @@
 🧭 Project 9 — Around the U.S. (API Version)
 
+Second resubmission PR note.
+
 A fully interactive, API-powered photo-sharing app built with modular JavaScript, accessible UI patterns, and Webpack.
 
 ⋯⋯⋯⋯⋯⋯⋯⋯⋯⋯
